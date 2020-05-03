@@ -6,13 +6,13 @@ const Button = styled.button`
   text-align: center;
   font-size: 1em;
   font-weight: bold;
-  color: #fff;
+  color: ${({ theme }) => theme.colors.white};
   border: 1px solid;
   border-radius: .5rem;
   
-  ${({ color }) => color === 'green' && `
-    background-color: #28a745;
-    border-color: #c3e6cb;
+  ${({ theme, color }) => color === 'green' && `
+    background-color: ${theme.colors.greenLight};
+    border-color: ${theme.colors.greenLight};
   `};
 `;
 
