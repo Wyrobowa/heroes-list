@@ -33,17 +33,22 @@ const HeroesList = () => {
         Add hero
       </Button>
       <Styled.Table>
-        <Styled.TableHeader>
-          <div>Heroes</div>
-          <div>Type</div>
-          <div>Description</div>
-        </Styled.TableHeader>
+        <Styled.Header>
+          <Styled.NameColumn>Heroes</Styled.NameColumn>
+          <Styled.TypeColumn>Type</Styled.TypeColumn>
+          <Styled.DescriptionColumn>Description</Styled.DescriptionColumn>
+        </Styled.Header>
         {heroesList.length > 0 && heroesList.map(hero => (
-          <Styled.TableRow key={hero.id}>
-            <div>{hero.full_name}</div>
-            <div>{hero.type && hero.type.name}</div>
-            <div>{hero.description}</div>
-          </Styled.TableRow>
+          <Styled.Row key={hero.id}>
+            <Styled.TitleWrapper>
+              <Styled.Avatar />
+              <Styled.NameAndType>
+                <Styled.Name>{hero.full_name}</Styled.Name>
+                <Styled.Cell>{hero.type && hero.type.name}</Styled.Cell>
+              </Styled.NameAndType>
+            </Styled.TitleWrapper>
+            <Styled.Description>{hero.description}</Styled.Description>
+          </Styled.Row>
         ))}
       </Styled.Table>
     </>

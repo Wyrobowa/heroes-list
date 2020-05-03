@@ -12,6 +12,7 @@ const GlobalStyles = createGlobalStyle`
 const App = styled.div`
   min-height: 100vh;
   padding: .5em 1em;
+  background-color: ${({ theme }) => theme.colors.grey95};
 `;
 
 export {
