@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 const Button = styled.button`
-      padding: .75em 1.25em;
+  padding: .75em 1.25em;
   cursor: pointer;
   text-align: center;
   font-size: 1em;
