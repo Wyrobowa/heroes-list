@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
+// Components
+import Button from '../../components/button/Button';
+import Icon from '../../components/icon/Icon';
+
 // Services
 import { fetchData } from '../../services/requestService';
 
 // Styles
 import * as Styled from './heroStyles';
-import Button from '../../components/button/Button';
-import Icon from '../../components/icon/Icon';
 
 const Hero = ({ match }) => {
   const [hero, setHero] = useState({});
