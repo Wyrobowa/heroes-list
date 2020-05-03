@@ -7,6 +7,7 @@
     "es6": true
   },
   "rules": {
+    "arrow-parens": ["error", "as-needed"],
     "import/prefer-default-export": "off",
     "react/jsx-filename-extension": [1, { "extensions": [".js"] }]
   }
