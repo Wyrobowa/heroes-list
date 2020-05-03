@@ -42,7 +42,7 @@ const HeroesList = () => {
         {heroesList.length > 0 && heroesList.map(hero => (
           <Styled.Row key={hero.id}>
             <Styled.TitleWrapper>
-              <Styled.Avatar />
+              <Styled.HeroAvatar src={hero.avatar_url} alt={hero.full_name} size="small" />
               <Styled.NameAndType>
                 <Styled.Name>{hero.full_name}</Styled.Name>
                 <Styled.Cell>{hero.type && hero.type.name}</Styled.Cell>

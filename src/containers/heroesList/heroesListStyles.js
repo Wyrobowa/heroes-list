@@ -1,5 +1,8 @@
 import styled from 'styled-components';
 
+// Components
+import Avatar from '../../components/avatar/Avatar';
+
 const Table = styled.div`
   display: flex;
   flex-flow: column;
@@ -56,12 +59,8 @@ const NameAndType = styled.div`
   }
 `;
 
-const Avatar = styled.div`
-  width: 40px;
-  height: 40px;
+const HeroAvatar = styled(Avatar)`
   margin-right: 1em;
-  border-radius: 50%;
-  background-color: ${({ theme }) => theme.colors.grey30};
   
   @media ${({ theme }) => theme.mediaQueries.tablet} {
     margin-right: 0;
@@ -106,7 +105,7 @@ export {
   Row,
   TitleWrapper,
   NameAndType,
-  Avatar,
+  HeroAvatar,
   Cell,
   Name,
   Description,

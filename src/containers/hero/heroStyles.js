@@ -1,21 +1,16 @@
 import styled from 'styled-components';
 
+// Components
+import Avatar from '../../components/avatar/Avatar';
+
 const Hero = styled.div`
   display: flex;
   flex-flow: column;
   align-items: center;
 `;
 
-const Avatar = styled.div`
-  width: 90px;
-  height: 90px;
+const HeroAvatar = styled(Avatar)`
   margin-bottom: 2em;
-  border-radius: 50%;
-  background-color: ${({ theme }) => theme.colors.grey30};
-  
-  @media ${({ theme }) => theme.mediaQueries.tablet} {
-    margin-right: 0;
-  }
 `;
 
 const Cell = styled.div`
@@ -30,7 +25,7 @@ const Name = styled(Cell)`
 
 export {
   Hero,
-  Avatar,
+  HeroAvatar,
   Cell,
   Name,
 };
