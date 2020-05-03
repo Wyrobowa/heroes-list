@@ -19,6 +19,19 @@ const Button = styled.button`
     background-color: ${theme.colors.greenLight};
     border-color: ${theme.colors.greenLight};
   `};
+  
+  ${({ color }) => color === 'transparent' && `
+    background-color: transparent;
+    border-color: transparent;
+  `};
+  
+  ${({ theme, font }) => font === 'white' && `
+    color: ${theme.colors.white};
+  `};
+  
+  ${({ theme, font }) => font === 'red' && `
+    color: ${theme.colors.redLight};
+  `};
 `;
 
 export {

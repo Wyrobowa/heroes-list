@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 // Components
 import Button from '../../components/button/Button';
@@ -16,7 +17,7 @@ const HeroesList = () => {
   useEffect(() => {
     const getData = async () => {
       const data = await fetchData('http://localhost:4000/heroes');
-      setHeroesList(data);
+      setHeroesList(data.data);
     };
 
     getData();
@@ -48,6 +49,7 @@ const HeroesList = () => {
               </Styled.NameAndType>
             </Styled.TitleWrapper>
             <Styled.Description>{hero.description}</Styled.Description>
+            <Link to={`/hero/${hero.id}`}>Click</Link>
           </Styled.Row>
         ))}
       </Styled.Table>
