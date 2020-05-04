@@ -13,7 +13,8 @@ const Label = styled.label`
 const Input = styled.input`
   display: block;
   width: 100%;
-  height: 1.5em;
+  height: 3em;
+  box-sizing: border-box;
   padding: .5em;
   font-size: 1em;
   border: 1px solid ${({ theme }) => theme.colors.white};
@@ -23,7 +24,8 @@ const Input = styled.input`
 const TextArea = styled.textarea`
   display: block;
   width: 100%;
-  height: 5em;
+  height: 9em;
+  box-sizing: border-box;
   padding: .5em;
   font-size: 1em;
   border: 1px solid ${({ theme }) => theme.colors.white};
