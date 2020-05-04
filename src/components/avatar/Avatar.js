@@ -12,12 +12,13 @@ const Avatar = ({
 
 Avatar.propTypes = {
   src: PropTypes.string.isRequired,
-  alt: PropTypes.string.isRequired,
+  alt: PropTypes.string,
   size: PropTypes.oneOf(['small', 'medium', 'large']),
   className: PropTypes.string,
 };
 
 Avatar.defaultProps = {
+  alt: 'Hero avatar',
   size: 'medium',
   className: '',
 };

@@ -18,7 +18,7 @@ const Input = styled.input`
   padding: .5em;
   font-size: 1em;
   border: 1px solid ${({ theme }) => theme.colors.white};
-  border-radius: .25em;
+  border-radius: .5em;
 `;
 
 const TextArea = styled.textarea`
@@ -29,7 +29,7 @@ const TextArea = styled.textarea`
   padding: .5em;
   font-size: 1em;
   border: 1px solid ${({ theme }) => theme.colors.white};
-  border-radius: .25rem;
+  border-radius: .5rem;
 `;
 
 export {

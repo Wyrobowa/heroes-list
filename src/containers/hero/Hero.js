@@ -33,7 +33,7 @@ const Hero = ({ match }) => {
     <Styled.Hero>
       {hero && (
         <>
-          <Styled.HeroAvatar src={hero.avatar_url} alt={hero.full_name} />
+          <Styled.HeroAvatar src={hero.avatar_url || 'none'} alt={hero.full_name} />
           <Styled.Name>{hero.full_name}</Styled.Name>
           <Styled.Cell>{hero.type && hero.type.name}</Styled.Cell>
           <Styled.Cell>{hero.description}</Styled.Cell>
