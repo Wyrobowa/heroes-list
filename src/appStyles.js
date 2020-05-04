@@ -1,6 +1,9 @@
 import styled, { createGlobalStyle } from 'styled-components';
+import styledNormalized from 'styled-normalize';
 
 const GlobalStyles = createGlobalStyle`
+  ${styledNormalized}
+
   body {
     margin: 0;
     font-family: ${({ theme }) => theme.fonts.primary};
