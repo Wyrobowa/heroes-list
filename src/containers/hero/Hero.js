@@ -10,9 +10,11 @@ import { fetchData } from '../../services/requestService';
 
 // Styles
 import * as Styled from './heroStyles';
+import Loader from '../../components/loader/Loader';
 
 const Hero = ({ match }) => {
   const [hero, setHero] = useState({});
+  const [fetchingData, setFetchingData] = useState(true);
 
   const { id } = match.params;
 
@@ -23,6 +25,7 @@ const Hero = ({ match }) => {
     };
 
     getData();
+    setFetchingData(false);
   }, [id]);
 
   const handleOnClick = ({ target }) => {
@@ -30,20 +33,22 @@ const Hero = ({ match }) => {
   };
 
   return (
-    <Styled.Hero>
-      {hero && (
-        <>
-          <Styled.HeroAvatar src={hero.avatar_url || 'none'} alt={hero.full_name} />
-          <Styled.Name>{hero.full_name}</Styled.Name>
-          <Styled.Cell>{hero.type && hero.type.name}</Styled.Cell>
-          <Styled.Cell>{hero.description}</Styled.Cell>
-          <Button color="transparent" font="red" onClick={handleOnClick} type="button">
-            <Icon name="trash" />
-            Delete hero
-          </Button>
-        </>
-      )}
-    </Styled.Hero>
+    <Loader loading={fetchingData}>
+      <Styled.Hero>
+        {hero && (
+          <>
+            <Styled.HeroAvatar src={hero.avatar_url || 'none'} alt={hero.full_name} />
+            <Styled.Name>{hero.full_name}</Styled.Name>
+            <Styled.Cell>{hero.type && hero.type.name}</Styled.Cell>
+            <Styled.Cell>{hero.description}</Styled.Cell>
+            <Button color="transparent" font="red" onClick={handleOnClick} type="button">
+              <Icon name="trash" />
+              Delete hero
+            </Button>
+          </>
+        )}
+      </Styled.Hero>
+    </Loader>
   );
 };
 

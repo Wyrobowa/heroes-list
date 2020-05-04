@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 // Components
 import Button from '../../components/button/Button';
 import Icon from '../../components/icon/Icon';
+import Loader from '../../components/loader/Loader';
 
 // Services
 import { fetchData } from '../../services/requestService';
@@ -13,6 +14,7 @@ import * as Styled from './heroesListStyles';
 
 const HeroesList = () => {
   const [heroesList, setHeroesList] = useState([]);
+  const [fetchingData, setFetchingData] = useState(true);
 
   useEffect(() => {
     const getData = async () => {
@@ -21,6 +23,7 @@ const HeroesList = () => {
     };
 
     getData();
+    setFetchingData(false);
   }, []);
 
   const handleOnClick = ({ target }) => {
@@ -28,7 +31,7 @@ const HeroesList = () => {
   };
 
   return (
-    <>
+    <Loader loading={fetchingData}>
       <Button type="button" color="green" onClick={handleOnClick}>
         <Icon name="plus" />
         Add hero
@@ -53,7 +56,7 @@ const HeroesList = () => {
           </Styled.Row>
         ))}
       </Styled.Table>
-    </>
+    </Loader>
   );
 };
 
