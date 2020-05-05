@@ -32,6 +32,10 @@ const Button = styled.button`
   ${({ theme, font }) => font === 'red' && `
     color: ${theme.colors.redLight};
   `};
+  
+  ${({ theme, font }) => font === 'grey' && `
+    color: ${theme.colors.grey60};
+  `};
 `;
 
 export {

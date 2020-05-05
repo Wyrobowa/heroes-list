@@ -13,6 +13,7 @@ const variables = {
     white: 'hsl(0, 0%, 100%)',
     greenLight: '#64CD94',
     redLight: '#E9394D',
+    transparentGrey: 'rgba(0,0,0,0.5)',
   },
   fonts: {
     size: '14px',

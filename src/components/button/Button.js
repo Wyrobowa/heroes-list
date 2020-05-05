@@ -5,13 +5,14 @@ import PropTypes from 'prop-types';
 import * as Styled from './buttonStyles';
 
 const Button = ({
-  type, color, font, onClick, children,
+  type, color, font, onClick, className, children,
 }) => (
   <Styled.Button
     type={type}
     color={color}
     font={font}
     onClick={onClick}
+    className={className}
   >
     {children}
   </Styled.Button>
@@ -19,9 +20,10 @@ const Button = ({
 
 Button.propTypes = {
   type: PropTypes.string.isRequired,
-  color: PropTypes.oneOf(['green', 'blue', 'transparent']).isRequired,
-  font: PropTypes.oneOf(['white', 'red']),
+  color: PropTypes.oneOf(['green', 'blue', 'transparent']),
+  font: PropTypes.oneOf(['white', 'red', 'grey']),
   onClick: PropTypes.func.isRequired,
+  className: PropTypes.string,
   children: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.node,
@@ -29,7 +31,9 @@ Button.propTypes = {
 };
 
 Button.defaultProps = {
+  color: 'blue',
   font: 'white',
+  className: '',
 };
 
 export default Button;

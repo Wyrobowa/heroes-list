@@ -7,7 +7,9 @@ const SelectField = styled.div`
 `;
 
 const Label = styled.label`
-  margin-bottom: .5em;
+  display: inline-block;
+  margin-bottom: .5rem;
+  color: ${({ theme }) => theme.colors.grey60};
 `;
 
 const Select = styled.select`

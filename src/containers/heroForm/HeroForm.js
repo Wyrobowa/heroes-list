@@ -9,7 +9,7 @@ import TextField from '../../components/textField/TextField';
 import { fetchData } from '../../services/requestService';
 
 // Styles
-import * as Styled from './addHeroStyles';
+import * as Styled from './heroFormStyles';
 
 const initState = {
   id: '',
@@ -21,7 +21,7 @@ const initState = {
   avatar_url: '',
 };
 
-const AddHero = () => {
+const HeroForm = () => {
   const [hero, setHero] = useState(initState);
   const [typesList, setTypesList] = useState([]);
 
@@ -90,6 +90,7 @@ const AddHero = () => {
           />
           <SelectField
             id="type.name"
+            labelText="Type"
             onChange={handleSelectChange}
             options={typesList}
             selectedValue={hero.type.name}
@@ -108,4 +109,4 @@ const AddHero = () => {
   );
 };
 
-export default AddHero;
+export default HeroForm;

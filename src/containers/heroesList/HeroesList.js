@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 
 // Components
 import Button from '../../components/button/Button';
 import Icon from '../../components/icon/Icon';
+import LinkButton from '../../components/linkButton/LinkButton';
 import Loader from '../../components/loader/Loader';
 
 // Services
@@ -12,9 +13,19 @@ import { fetchData } from '../../services/requestService';
 // Styles
 import * as Styled from './heroesListStyles';
 
+const LinkButtonHoc = LinkButton(Button);
+
 const HeroesList = () => {
   const [heroesList, setHeroesList] = useState([]);
   const [fetchingData, setFetchingData] = useState(true);
+
+  const history = useHistory();
+  const location = useLocation();
+
+  const handleOnClick = ({ target }) => {
+    const url = target.getAttribute('data-url');
+    history.push(url);
+  };
 
   useEffect(() => {
     const getData = async () => {
@@ -26,16 +37,20 @@ const HeroesList = () => {
     setFetchingData(false);
   }, []);
 
-  const handleOnClick = ({ target }) => {
-    console.log(target);
-  };
-
   return (
     <Loader loading={fetchingData}>
-      <Button type="button" color="green" onClick={handleOnClick}>
+      <LinkButtonHoc
+        type="button"
+        color="green"
+        to={{
+          pathname: '/addHero',
+          state: { background: location },
+        }}
+        history={history}
+      >
         <Icon name="plus" />
         Add hero
-      </Button>
+      </LinkButtonHoc>
       <Styled.Table>
         <Styled.Header>
           <Styled.NameColumn>Heroes</Styled.NameColumn>
@@ -43,7 +58,7 @@ const HeroesList = () => {
           <Styled.DescriptionColumn>Description</Styled.DescriptionColumn>
         </Styled.Header>
         {heroesList.length > 0 && heroesList.map(hero => (
-          <Styled.Row key={hero.id}>
+          <Styled.Row key={hero.id} onClick={handleOnClick} data-url={`/viewHero/${hero.id}`}>
             <Styled.TitleWrapper>
               <Styled.HeroAvatar src={hero.avatar_url} alt={hero.full_name} size="small" />
               <Styled.NameAndType>
@@ -52,7 +67,6 @@ const HeroesList = () => {
               </Styled.NameAndType>
             </Styled.TitleWrapper>
             <Styled.Description>{hero.description}</Styled.Description>
-            <Link to={`/hero/${hero.id}`}>Click</Link>
           </Styled.Row>
         ))}
       </Styled.Table>
