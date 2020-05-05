@@ -8,6 +8,10 @@ const Table = styled.div`
   flex-flow: column;
   flex-wrap: wrap;
   margin-top: .5em;
+  
+  @media ${({ theme }) => theme.mediaQueries.tablet} {
+    margin-top: 2em;
+  }
 `;
 
 const TableRow = styled.div`

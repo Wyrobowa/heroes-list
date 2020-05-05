@@ -11,14 +11,14 @@ const variables = {
     grey90: 'hsl(0, 0%, 90%)',
     grey95: 'hsl(0, 0%, 95%)',
     white: 'hsl(0, 0%, 100%)',
+    blueLight: '#6198F3',
     greenLight: '#64CD94',
     redLight: '#E9394D',
     transparentGrey: 'rgba(0,0,0,0.5)',
   },
   fonts: {
     size: '14px',
-    primary: "'open_sans', sans-serif",
-    secondary: "'Butler', serif",
+    primary: "'Open Sans', sans-serif",
   },
   mediaQueries: {
     mobile: '(min-width: 320px)',

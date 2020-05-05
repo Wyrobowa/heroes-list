@@ -1,7 +1,7 @@
 import React from 'react';
 
 const LinkButton = WrappedComponent => ({
-  type, color, font, to, className, children, history,
+  type, color, font, border, to, className, children, history,
 }) => {
   const handleOnClick = () => {
     history.push(to);
@@ -12,6 +12,7 @@ const LinkButton = WrappedComponent => ({
       type={type}
       color={color}
       font={font}
+      border={border}
       className={className}
       onClick={handleOnClick}
     >

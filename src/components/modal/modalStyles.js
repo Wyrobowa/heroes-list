@@ -24,12 +24,14 @@ const ModalWrapper = styled.div`
 const Modal = styled.div`
   position: relative;
   width: 100%;
+  min-height: 100vh;
   box-sizing: border-box;
   padding: 2em;
   background-color: ${({ theme }) => theme.colors.grey95};
   
   @media ${({ theme }) => theme.mediaQueries.tablet} {
     width: 50%;
+    min-height: auto;
     border-radius: 1em;
   }
 `;

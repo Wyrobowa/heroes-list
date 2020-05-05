@@ -1,5 +1,7 @@
 import React from 'react';
-import { Route, Switch, useLocation } from 'react-router-dom';
+import {
+  Redirect, Route, Switch, useLocation,
+} from 'react-router-dom';
 
 // Components
 import ModalRoute from './components/modalRoute/ModalRoute';
@@ -8,6 +10,7 @@ import ModalRoute from './components/modalRoute/ModalRoute';
 import Hero from './containers/hero/Hero';
 import HeroForm from './containers/heroForm/HeroForm';
 import HeroesList from './containers/heroesList/HeroesList';
+import PageNotFound from './components/pageNotFound/PageNotFound';
 
 const Routing = () => {
   const location = useLocation();
@@ -19,6 +22,8 @@ const Routing = () => {
         <Route exact path="/" component={HeroesList} />
         <Route path="/viewHero/:id" component={Hero} />
         <Route path="/addHero" component={HeroForm} />
+        <Route path="/404" component={PageNotFound} />
+        <Redirect to="/404" />
       </Switch>
 
       <ModalRoute background={background} path="/viewHero/:id" component={Hero} />
