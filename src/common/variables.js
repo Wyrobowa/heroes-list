@@ -11,9 +11,10 @@ const variables = {
     grey90: 'hsl(0, 0%, 90%)',
     grey95: 'hsl(0, 0%, 95%)',
     white: 'hsl(0, 0%, 100%)',
-    blueLight: '#6198F3',
-    greenLight: '#64CD94',
-    redLight: '#E9394D',
+    blue: '#6198F3',
+    greenLight: '#BBE4D2',
+    green: '#64CD94',
+    red: '#E9394D',
     transparentGrey: 'rgba(0,0,0,0.5)',
   },
   fonts: {

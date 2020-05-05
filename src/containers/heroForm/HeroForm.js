@@ -24,6 +24,7 @@ const initState = {
 const HeroForm = () => {
   const [hero, setHero] = useState(initState);
   const [typesList, setTypesList] = useState([]);
+  const [buttonDisabled, setButtonDisabled] = useState(true);
 
   useEffect(() => {
     const getData = async () => {
@@ -37,6 +38,23 @@ const HeroForm = () => {
   useEffect(() => {
     setHero(initState);
   }, []);
+
+  const checkIfCanBeSaved = () => {
+    if (
+      hero.avatar_url !== ''
+      && hero.full_name !== ''
+      && hero.description !== ''
+      && hero.type.name !== ''
+    ) {
+      setButtonDisabled(false);
+    } else {
+      setButtonDisabled(true);
+    }
+  };
+
+  useEffect(() => {
+    checkIfCanBeSaved();
+  }, [hero]);
 
   const handleInputChange = ({ target }) => {
     const { name, value } = target;
@@ -67,7 +85,7 @@ const HeroForm = () => {
   };
 
   const handleOnClick = ({ target }) => {
-    console.log(target);
+
   };
 
   return (
@@ -81,12 +99,14 @@ const HeroForm = () => {
             onChange={handleInputChange}
             id="avatar_url"
             value={hero.avatar_url}
+            className="heroForm__field"
           />
           <TextField
             labelText="Full name"
             onChange={handleInputChange}
             id="full_name"
             value={hero.full_name}
+            className="heroForm__field"
           />
           <SelectField
             id="type.name"
@@ -94,6 +114,7 @@ const HeroForm = () => {
             onChange={handleSelectChange}
             options={typesList}
             selectedValue={hero.type.name}
+            className="heroForm__field"
           />
           <TextField
             fieldType="textarea"
@@ -101,8 +122,9 @@ const HeroForm = () => {
             onChange={handleInputChange}
             id="description"
             value={hero.description}
+            className="heroForm__field"
           />
-          <Button color="green" onClick={handleOnClick} type="submit">Save</Button>
+          <Button color="green" onClick={handleOnClick} type="submit" disabled={buttonDisabled}>Save</Button>
         </>
       )}
     </Styled.Hero>

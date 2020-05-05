@@ -18,8 +18,13 @@ const Button = styled.button`
   // Backgrounds colors
   
   ${({ theme, color }) => color === 'green' && `
-    background-color: ${theme.colors.greenLight};
-    border-color: ${theme.colors.greenLight};
+    background-color: ${theme.colors.green};
+    border-color: ${theme.colors.green};
+    
+    &:disabled {
+      background-color: ${theme.colors.greenLight};
+      border-color: ${theme.colors.greenLight};
+    }
   `};
   
   ${({ color }) => color === 'transparent' && `
@@ -34,11 +39,11 @@ const Button = styled.button`
   `};
   
   ${({ theme, font }) => font === 'blue' && `
-    color: ${theme.colors.blueLight};
+    color: ${theme.colors.blue};
   `};
   
   ${({ theme, font }) => font === 'red' && `
-    color: ${theme.colors.redLight};
+    color: ${theme.colors.red};
   `};
   
   ${({ theme, font }) => font === 'grey' && `
@@ -48,7 +53,7 @@ const Button = styled.button`
   // Borders colors
   
   ${({ theme, border }) => border === 'blue' && `
-    border-color: ${theme.colors.blueLight};
+    border-color: ${theme.colors.blue};
   `};
 `;
 

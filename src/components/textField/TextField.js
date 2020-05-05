@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import * as Styled from './textFieldStyles';
 
 const TextField = ({
-  fieldType, labelText, id, value, onChange,
+  fieldType, labelText, id, value, onChange, className,
 }) => (
   <Styled.TextField>
     {labelText && (
@@ -17,6 +17,7 @@ const TextField = ({
         name={id}
         value={value || ''}
         onChange={onChange}
+        className={className}
       />
     )}
     {fieldType === 'textarea' && (
@@ -25,6 +26,7 @@ const TextField = ({
         name={id}
         onChange={onChange}
         value={value || ''}
+        className={className}
       />
     )}
   </Styled.TextField>
@@ -35,6 +37,7 @@ TextField.propTypes = {
   fieldType: PropTypes.oneOf(['input', 'textarea']),
   labelText: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
+  className: PropTypes.string,
   value: PropTypes.oneOfType([
     PropTypes.number,
     PropTypes.string,
@@ -44,6 +47,7 @@ TextField.propTypes = {
 TextField.defaultProps = {
   value: '',
   fieldType: 'input',
+  className: '',
 };
 
 export default TextField;

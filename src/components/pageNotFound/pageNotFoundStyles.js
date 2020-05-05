@@ -23,7 +23,7 @@ const Paragraph = styled.span`
 const Title = styled(Paragraph)`
   font-size: 4em;
   font-weight: bold;
-  color: ${({ theme }) => theme.colors.blueLight};
+  color: ${({ theme }) => theme.colors.blue};
   
   @media ${({ theme }) => theme.mediaQueries.tablet} {
     font-size: 8em;

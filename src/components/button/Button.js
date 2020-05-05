@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import * as Styled from './buttonStyles';
 
 const Button = ({
-  type, color, font, border, onClick, className, children,
+  type, color, font, border, onClick, className, disabled, children,
 }) => (
   <Styled.Button
     type={type}
@@ -13,6 +13,7 @@ const Button = ({
     font={font}
     border={border}
     onClick={onClick}
+    disabled={disabled}
     className={className}
   >
     {children}
@@ -25,6 +26,7 @@ Button.propTypes = {
   font: PropTypes.oneOf(['white', 'blue', 'red', 'grey']),
   border: PropTypes.oneOf(['green', 'blue', 'red', 'transparent']),
   onClick: PropTypes.func.isRequired,
+  disabled: PropTypes.bool,
   className: PropTypes.string,
   children: PropTypes.oneOfType([
     PropTypes.string,
@@ -36,6 +38,7 @@ Button.defaultProps = {
   color: 'blue',
   font: 'white',
   border: 'transparent',
+  disabled: false,
   className: '',
 };
 
