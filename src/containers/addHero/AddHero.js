@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 // Components
 import Button from '../../components/button/Button';
+import SelectField from '../../components/selectField/SelectField';
 import TextField from '../../components/textField/TextField';
 
 // Services
@@ -22,13 +23,47 @@ const initState = {
 
 const AddHero = () => {
   const [hero, setHero] = useState(initState);
+  const [typesList, setTypesList] = useState([]);
+
+  useEffect(() => {
+    const getData = async () => {
+      const data = await fetchData('http://localhost:4000/types');
+      setTypesList(data);
+    };
+
+    getData();
+  }, []);
 
   useEffect(() => {
     setHero(initState);
   }, []);
 
-  const handleChange = ({ target }) => {
-    console.log(target);
+  const handleInputChange = ({ target }) => {
+    const { name, value } = target;
+
+    setHero({
+      ...hero,
+      [name]: value,
+    });
+  };
+
+  const handleSelectChange = ({ target }) => {
+    const { name, value } = target;
+
+    const splitNames = name.split('.');
+    const baseName = splitNames[0];
+    const nestedName = splitNames[1];
+
+    const id = target.getAttribute('data-id');
+
+    setHero({
+      ...hero,
+      [baseName]: {
+        ...hero[baseName],
+        id,
+        [nestedName]: value,
+      },
+    });
   };
 
   const handleOnClick = ({ target }) => {
@@ -43,26 +78,26 @@ const AddHero = () => {
           <Styled.HeroAvatar src="none" alt="" />
           <TextField
             labelText="Avatar URL"
-            onChange={handleChange}
+            onChange={handleInputChange}
             id="avatar_url"
             value={hero.avatar_url}
           />
           <TextField
             labelText="Full name"
-            onChange={handleChange}
-            id="name"
+            onChange={handleInputChange}
+            id="full_name"
             value={hero.full_name}
           />
-          <TextField
-            labelText="Type"
-            onChange={handleChange}
-            id="type"
-            value={hero.type && hero.type.name}
+          <SelectField
+            id="type.name"
+            onChange={handleSelectChange}
+            options={typesList}
+            selectedValue={hero.type.name}
           />
           <TextField
             fieldType="textarea"
             labelText="Description"
-            onChange={handleChange}
+            onChange={handleInputChange}
             id="description"
             value={hero.description}
           />
