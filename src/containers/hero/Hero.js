@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 // Components
@@ -12,11 +13,11 @@ import { fetchData } from '../../services/requestService';
 import * as Styled from './heroStyles';
 import Loader from '../../components/loader/Loader';
 
-const Hero = ({ match }) => {
+const Hero = () => {
   const [hero, setHero] = useState({});
   const [fetchingData, setFetchingData] = useState(true);
 
-  const { id } = match.params;
+  const { id } = useParams();
 
   useEffect(() => {
     const getData = async () => {

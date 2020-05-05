@@ -7,10 +7,12 @@ import Modal from '../modal/Modal';
 
 const ModalRoute = ({ path, component: Component, background }) => {
   const { pathname } = useLocation();
+  const [splitPath] = path.split(':');
+  const isInPath = pathname.indexOf(splitPath) > -1;
 
   return (
     <>
-      {(background && pathname === path) && (
+      {(background && isInPath) && (
         <Route path={path}><Modal><Component /></Modal></Route>
       )}
     </>

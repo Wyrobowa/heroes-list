@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useHistory, useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 
 // Components
 import Button from '../../components/button/Button';
@@ -22,11 +22,6 @@ const HeroesList = () => {
   const history = useHistory();
   const location = useLocation();
 
-  const handleOnClick = ({ target }) => {
-    const url = target.getAttribute('data-url');
-    history.push(url);
-  };
-
   useEffect(() => {
     const getData = async () => {
       const data = await fetchData('http://localhost:4000/heroes');
@@ -36,6 +31,14 @@ const HeroesList = () => {
     getData();
     setFetchingData(false);
   }, []);
+
+  const handleOnClick = ({ currentTarget }) => {
+    const url = currentTarget.getAttribute('data-url');
+    history.push({
+      pathname: url,
+      state: { background: location },
+    });
+  };
 
   return (
     <Loader loading={fetchingData}>
