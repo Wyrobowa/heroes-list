@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useParams, useLocation } from 'react-router-dom';
 
 // Components
 import Button from '../../components/button/Button';
@@ -22,9 +23,25 @@ const initState = {
 };
 
 const HeroForm = () => {
+  const [formTitle, setFormTitle] = useState('');
   const [hero, setHero] = useState(initState);
   const [typesList, setTypesList] = useState([]);
   const [buttonDisabled, setButtonDisabled] = useState(true);
+
+  const { id } = useParams();
+  const location = useLocation();
+
+  useEffect(() => {
+    const path = location.pathname;
+
+    if (path.includes('edit')) {
+      setFormTitle('Edit');
+    }
+
+    if (path.includes('add')) {
+      setFormTitle('Add');
+    }
+  }, []);
 
   useEffect(() => {
     const getData = async () => {
@@ -37,6 +54,15 @@ const HeroForm = () => {
 
   useEffect(() => {
     setHero(initState);
+
+    if (id) {
+      const getData = async () => {
+        const data = await fetchData(`http://localhost:4000/heroes/${id}`);
+        setHero(data);
+      };
+
+      getData();
+    }
   }, []);
 
   const checkIfCanBeSaved = () => {
@@ -72,28 +98,28 @@ const HeroForm = () => {
     const baseName = splitNames[0];
     const nestedName = splitNames[1];
 
-    const id = target.getAttribute('data-id');
+    const itemId = target.getAttribute('data-id');
 
     setHero({
       ...hero,
       [baseName]: {
         ...hero[baseName],
-        id,
+        id: itemId,
         [nestedName]: value,
       },
     });
   };
 
   const handleOnClick = ({ target }) => {
-
+    console.log(target);
   };
 
   return (
     <Styled.Hero>
-      <Styled.Title>Add hero</Styled.Title>
+      <Styled.Title>{`${formTitle} hero`}</Styled.Title>
       {hero && (
         <>
-          <Styled.HeroAvatar src="none" alt="" />
+          <Styled.HeroAvatar src={hero.avatar_url || 'none'} alt={hero.full_name || ''} />
           <TextField
             labelText="Avatar URL"
             onChange={handleInputChange}

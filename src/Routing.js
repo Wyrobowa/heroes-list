@@ -22,12 +22,14 @@ const Routing = () => {
         <Route exact path="/" component={HeroesList} />
         <Route path="/viewHero/:id" component={Hero} />
         <Route path="/addHero" component={HeroForm} />
+        <Route path="/editHero/:id" component={HeroForm} />
         <Route path="/404" component={PageNotFound} />
         <Redirect to="/404" />
       </Switch>
 
       <ModalRoute background={background} path="/viewHero/:id" component={Hero} />
       <ModalRoute background={background} path="/addHero" component={HeroForm} />
+      <ModalRoute background={background} path="/editHero/:id" component={HeroForm} />
     </>
   );
 };

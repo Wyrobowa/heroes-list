@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import PropTypes from 'prop-types';
+import { useParams, useHistory, useLocation } from 'react-router-dom';
 
 // Components
 import Button from '../../components/button/Button';
 import Icon from '../../components/icon/Icon';
+import LinkButton from '../../components/linkButton/LinkButton';
 
 // Services
 import { fetchData } from '../../services/requestService';
@@ -13,11 +13,15 @@ import { fetchData } from '../../services/requestService';
 import * as Styled from './heroStyles';
 import Loader from '../../components/loader/Loader';
 
+const LinkButtonHoc = LinkButton(Button);
+
 const Hero = () => {
   const [hero, setHero] = useState({});
   const [fetchingData, setFetchingData] = useState(true);
 
   const { id } = useParams();
+  const history = useHistory();
+  const location = useLocation();
 
   useEffect(() => {
     const getData = async () => {
@@ -29,7 +33,15 @@ const Hero = () => {
     setFetchingData(false);
   }, [id]);
 
-  const handleOnClick = ({ target }) => {
+  const handleOnClick = ({ currentTarget }) => {
+    const url = currentTarget.getAttribute('data-url');
+    history.push({
+      pathname: url,
+      state: { background: location },
+    });
+  };
+
+  const handleDelete = ({ target }) => {
     console.log(target);
   };
 
@@ -42,7 +54,19 @@ const Hero = () => {
             <Styled.Name>{hero.full_name}</Styled.Name>
             <Styled.Cell>{hero.type && hero.type.name}</Styled.Cell>
             <Styled.Cell>{hero.description}</Styled.Cell>
-            <Button color="transparent" font="red" onClick={handleOnClick} type="button">
+            <LinkButtonHoc
+              type="button"
+              color="green"
+              to={{
+                pathname: `/editHero/${hero.id}`,
+                state: { background: location.state.background },
+              }}
+              history={history}
+            >
+              <Icon name="pen" />
+              Edit hero
+            </LinkButtonHoc>
+            <Button color="transparent" font="red" onClick={handleDelete} type="button">
               <Icon name="trash" />
               Delete hero
             </Button>
@@ -51,17 +75,6 @@ const Hero = () => {
       </Styled.Hero>
     </Loader>
   );
-};
-
-Hero.propTypes = {
-  match: PropTypes.shape({
-    isExact: PropTypes.bool,
-    params: PropTypes.shape({
-      id: PropTypes.string,
-    }),
-    path: PropTypes.string,
-    url: PropTypes.string,
-  }).isRequired,
 };
 
 export default Hero;
