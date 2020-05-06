@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
 import { useParams, useLocation, useHistory } from 'react-router-dom';
+
+// Actions
+import PropTypes from 'prop-types';
+import * as actions from '../../actions/heroesListActions';
 
 // Components
 import Button from '../../components/button/Button';
@@ -24,7 +29,7 @@ const initState = {
   avatar_url: '',
 };
 
-const HeroForm = () => {
+const HeroForm = ({ addHeroesListAction, editHeroesListAction }) => {
   const [formType, setFormType] = useState('');
   const [hero, setHero] = useState(initState);
   const [typesList, setTypesList] = useState([]);
@@ -116,9 +121,19 @@ const HeroForm = () => {
     event.preventDefault();
 
     const parsedData = parseData(hero);
+    const sendOptions = [
+      formType === 'Add' ? 'http://localhost:4000/heroes' : `http://localhost:4000/heroes/${id}`,
+      formType === 'Add' ? 'POST' : 'PUT',
+      parsedData,
+    ];
 
-    if (formType === 'Add') await sendData('http://localhost:4000/heroes', 'POST', parsedData);
-    if (formType === 'Edit') await sendData(`http://localhost:4000/heroes/${id}`, 'PUT', parsedData);
+    const newHero = await sendData(...sendOptions);
+
+    if (formType === 'Add') {
+      addHeroesListAction(newHero);
+    } else {
+      editHeroesListAction(newHero, id);
+    }
 
     history.push('/');
   };
@@ -174,4 +189,15 @@ const HeroForm = () => {
   );
 };
 
-export default HeroForm;
+HeroForm.propTypes = {
+  addHeroesListAction: PropTypes.func.isRequired,
+  editHeroesListAction: PropTypes.func.isRequired,
+};
+
+export default connect(
+  null,
+  {
+    addHeroesListAction: actions.addHeroesList,
+    editHeroesListAction: actions.editHeroesList,
+  },
+)(HeroForm);

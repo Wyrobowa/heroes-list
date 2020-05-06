@@ -33,7 +33,7 @@ export const sendData = (url, method, formData) => new Promise((resolve, reject)
   })
     .then(response => response.json())
     .then(data => {
-      resolve(data.data);
+      resolve(data);
     })
     .catch(error => {
       reject(error);

@@ -15,6 +15,24 @@ const heroesList = (state = initialState, action) => {
       return {
         ...state,
       };
+    case actions.ADD_HEROES_LIST:
+      return {
+        ...state,
+        heroesList: [
+          ...state.heroesList,
+          action.data,
+        ],
+      };
+    case actions.EDIT_HEROES_LIST:
+      return {
+        ...state,
+        heroesList: state.heroesList.map(item => {
+          if (item.id === action.id) {
+            return action.data;
+          }
+          return item;
+        }),
+      };
     default:
       return state;
   }

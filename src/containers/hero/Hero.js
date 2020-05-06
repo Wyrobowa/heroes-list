@@ -43,7 +43,6 @@ const Hero = ({ hero, getHeroAction }) => {
 
   return (
     <Loader loading={fetchingData}>
-      {console.log(hero)}
       <Styled.Hero>
         {hero && (
           <>
