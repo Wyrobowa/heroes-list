@@ -15,7 +15,7 @@ import TextField from '../../components/textField/TextField';
 import { parseData } from '../../helpers/helper';
 
 // Services
-import { fetchData, sendData } from '../../services/requestService';
+import { requester } from '../../services/requestService';
 
 // Styles
 import * as Styled from './heroFormStyles';
@@ -29,7 +29,7 @@ const initState = {
   avatar_url: '',
 };
 
-const HeroForm = ({ addHeroesListAction, editHeroesListAction }) => {
+const HeroForm = ({ addHeroAction, editHeroAction }) => {
   const [formType, setFormType] = useState('');
   const [hero, setHero] = useState(initState);
   const [typesList, setTypesList] = useState([]);
@@ -53,7 +53,7 @@ const HeroForm = ({ addHeroesListAction, editHeroesListAction }) => {
 
   useEffect(() => {
     const getData = async () => {
-      const data = await fetchData('http://localhost:4000/types');
+      const data = await requester('http://localhost:4000/types', 'GET');
       setTypesList(data);
     };
 
@@ -65,7 +65,7 @@ const HeroForm = ({ addHeroesListAction, editHeroesListAction }) => {
 
     if (id) {
       const getData = async () => {
-        const data = await fetchData(`http://localhost:4000/heroes/${id}`);
+        const data = await requester(`http://localhost:4000/heroes/${id}`, 'GET');
         setHero(data);
       };
 
@@ -127,12 +127,12 @@ const HeroForm = ({ addHeroesListAction, editHeroesListAction }) => {
       parsedData,
     ];
 
-    const newHero = await sendData(...sendOptions);
+    const newHero = await requester(...sendOptions);
 
     if (formType === 'Add') {
-      addHeroesListAction(newHero);
+      addHeroAction(newHero);
     } else {
-      editHeroesListAction(newHero, id);
+      editHeroAction(newHero, id);
     }
 
     history.push('/');
@@ -190,14 +190,14 @@ const HeroForm = ({ addHeroesListAction, editHeroesListAction }) => {
 };
 
 HeroForm.propTypes = {
-  addHeroesListAction: PropTypes.func.isRequired,
-  editHeroesListAction: PropTypes.func.isRequired,
+  addHeroAction: PropTypes.func.isRequired,
+  editHeroAction: PropTypes.func.isRequired,
 };
 
 export default connect(
   null,
   {
-    addHeroesListAction: actions.addHeroesList,
-    editHeroesListAction: actions.editHeroesList,
+    addHeroAction: actions.addHero(),
+    editHeroAction: actions.editHero(),
   },
 )(HeroForm);

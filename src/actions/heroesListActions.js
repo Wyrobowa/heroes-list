@@ -1,7 +1,8 @@
 export const GET_HEROES_LIST_SUCCESSFUL = 'GET_HEROES_LIST_SUCCESSFUL';
 export const GET_HEROES_LIST_UNSUCCESSFUL = 'GET_HEROES_LIST_UNSUCCESSFUL';
-export const ADD_HEROES_LIST = 'ADD_HEROES_LIST';
-export const EDIT_HEROES_LIST = 'EDIT_HEROES_LIST';
+export const ADD_HERO = 'ADD_HERO';
+export const EDIT_HERO = 'EDIT_HERO';
+export const DELETE_HERO = 'DELETE_HERO';
 
 export const getHeroesListSuccessful = payload => ({
   type: GET_HEROES_LIST_SUCCESSFUL,
@@ -12,14 +13,19 @@ export const getHeroesListUnsuccessful = () => ({
   type: GET_HEROES_LIST_UNSUCCESSFUL,
 });
 
-export const addHeroesList = data => ({
-  type: ADD_HEROES_LIST,
+export const addHero = data => ({
+  type: ADD_HERO,
   data,
 });
 
-export const editHeroesList = (data, id) => ({
-  type: EDIT_HEROES_LIST,
+export const editHero = (data, id) => ({
+  type: EDIT_HERO,
   data,
+  id,
+});
+
+export const deleteHero = id => ({
+  type: DELETE_HERO,
   id,
 });
 

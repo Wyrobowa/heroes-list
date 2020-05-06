@@ -1,36 +1,34 @@
 /**
- * Fetch external data
- *
- * @param {String} url
- * @returns {Promise}
- */
-export const fetchData = url => new Promise((resolve, reject) => {
-  fetch(url)
-    .then(response => response.json())
-    .then(data => {
-      resolve(data);
-    })
-    .catch(error => {
-      reject(error);
-    });
-});
-
-/**
- * Send data to external URL
+ * Manage data using external URL
  *
  * @param {String} url
  * @param {String} method
- * @param {Object} formData
+ * @param {Object} requestData
  * @returns {Promise}
  */
-export const sendData = (url, method, formData) => new Promise((resolve, reject) => {
-  fetch(url, {
+export const requester = (url, method, requestData) => new Promise((resolve, reject) => {
+  const options = {
     method,
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(formData),
-  })
+  };
+
+  switch (method) {
+    case 'POST':
+      options.headers = {
+        'Content-Type': 'application/json',
+      };
+      options.body = JSON.stringify(requestData);
+      break;
+    case 'PUT':
+      options.headers = {
+        'Content-Type': 'application/json',
+      };
+      options.body = JSON.stringify(requestData);
+      break;
+    default:
+      break;
+  }
+
+  fetch(url, options)
     .then(response => response.json())
     .then(data => {
       resolve(data);

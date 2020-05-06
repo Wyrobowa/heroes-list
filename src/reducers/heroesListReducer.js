@@ -15,7 +15,7 @@ const heroesList = (state = initialState, action) => {
       return {
         ...state,
       };
-    case actions.ADD_HEROES_LIST:
+    case actions.ADD_HERO:
       return {
         ...state,
         heroesList: [
@@ -23,15 +23,20 @@ const heroesList = (state = initialState, action) => {
           action.data,
         ],
       };
-    case actions.EDIT_HEROES_LIST:
+    case actions.EDIT_HERO:
       return {
         ...state,
-        heroesList: state.heroesList.map(item => {
-          if (item.id === action.id) {
+        heroesList: state.heroesList.map(hero => {
+          if (hero.id === action.id) {
             return action.data;
           }
-          return item;
+          return hero;
         }),
+      };
+    case actions.DELETE_HERO:
+      return {
+        ...state,
+        heroesList: state.heroesList.filter(hero => hero.id !== action.id),
       };
     default:
       return state;

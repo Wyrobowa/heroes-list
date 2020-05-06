@@ -4,20 +4,24 @@ import { useParams, useHistory, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 // Actions
-import * as actions from '../../actions/heroActions';
+import * as heroActions from '../../actions/heroActions';
+import * as heroesListActions from '../../actions/heroesListActions';
 
 // Components
 import Button from '../../components/button/Button';
 import Icon from '../../components/icon/Icon';
+import Loader from '../../components/loader/Loader';
 
 // Reducers
-import * as reducer from '../../reducers/heroReducer';
+import * as heroReducer from '../../reducers/heroReducer';
+
+// Services
+import { requester } from '../../services/requestService';
 
 // Styles
 import * as Styled from './heroStyles';
-import Loader from '../../components/loader/Loader';
 
-const Hero = ({ hero, getHeroAction }) => {
+const Hero = ({ hero, getHeroAction, deleteHeroAction }) => {
   const [fetchingData, setFetchingData] = useState(true);
 
   const { id } = useParams();
@@ -29,16 +33,14 @@ const Hero = ({ hero, getHeroAction }) => {
     setFetchingData(false);
   }, [id]);
 
-  const handleOnClick = ({ currentTarget }) => {
-    const url = currentTarget.getAttribute('data-url');
-    history.push({
-      pathname: url,
-      state: { background: location },
-    });
-  };
+  const handleDelete = async event => {
+    event.preventDefault();
 
-  const handleDelete = ({ target }) => {
-    console.log(target);
+    await requester(`http://localhost:4000/heroes/${id}`, 'DELETE');
+
+    deleteHeroAction(id);
+
+    history.push('/');
   };
 
   return (
@@ -91,15 +93,17 @@ Hero.propTypes = {
     }),
   }).isRequired,
   getHeroAction: PropTypes.func.isRequired,
+  deleteHeroAction: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
-  hero: reducer.getHero(state),
+  hero: heroReducer.getHero(state),
 });
 
 export default connect(
   mapStateToProps,
   {
-    getHeroAction: actions.requestHero,
+    getHeroAction: heroActions.requestHero,
+    deleteHeroAction: heroesListActions.deleteHero,
   },
 )(Hero);
