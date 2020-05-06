@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
+import PropTypes from 'prop-types';
+
+// Actions
+import * as actions from '../../actions/heroesListActions';
 
 // Components
 import Button from '../../components/button/Button';
@@ -7,28 +12,22 @@ import Icon from '../../components/icon/Icon';
 import LinkButton from '../../components/linkButton/LinkButton';
 import Loader from '../../components/loader/Loader';
 
-// Services
-import { fetchData } from '../../services/requestService';
+// Reducers
+import * as reducer from '../../reducers/heroesListReducer';
 
 // Styles
 import * as Styled from './heroesListStyles';
 
 const LinkButtonHoc = LinkButton(Button);
 
-const HeroesList = () => {
-  const [heroesList, setHeroesList] = useState([]);
+const HeroesList = ({ heroesList, getHeroesListAction }) => {
   const [fetchingData, setFetchingData] = useState(true);
 
   const history = useHistory();
   const location = useLocation();
 
   useEffect(() => {
-    const getData = async () => {
-      const data = await fetchData('http://localhost:4000/heroes');
-      setHeroesList(data.data);
-    };
-
-    getData();
+    getHeroesListAction();
     setFetchingData(false);
   }, []);
 
@@ -77,4 +76,21 @@ const HeroesList = () => {
   );
 };
 
-export default HeroesList;
+HeroesList.propTypes = {
+  heroesList: PropTypes.arrayOf(PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.shape({}),
+  ])).isRequired,
+  getHeroesListAction: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = state => ({
+  heroesList: reducer.getHeroesList(state),
+});
+
+export default connect(
+  mapStateToProps,
+  {
+    getHeroesListAction: actions.requestHeroesList,
+  },
+)(HeroesList);

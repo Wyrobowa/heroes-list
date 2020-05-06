@@ -23,7 +23,7 @@ const Button = ({
 Button.propTypes = {
   type: PropTypes.string.isRequired,
   color: PropTypes.oneOf(['green', 'blue', 'transparent']),
-  font: PropTypes.oneOf(['white', 'blue', 'red', 'grey']),
+  font: PropTypes.oneOf(['white', 'green', 'blue', 'red', 'grey']),
   border: PropTypes.oneOf(['green', 'blue', 'red', 'transparent']),
   onClick: PropTypes.func.isRequired,
   disabled: PropTypes.bool,

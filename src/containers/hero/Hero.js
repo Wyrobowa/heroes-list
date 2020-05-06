@@ -1,19 +1,23 @@
 import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
 import { useParams, useHistory, useLocation } from 'react-router-dom';
+import PropTypes from 'prop-types';
+
+// Actions
+import * as actions from '../../actions/heroActions';
 
 // Components
 import Button from '../../components/button/Button';
 import Icon from '../../components/icon/Icon';
 
-// Services
-import { fetchData } from '../../services/requestService';
+// Reducers
+import * as reducer from '../../reducers/heroReducer';
 
 // Styles
 import * as Styled from './heroStyles';
 import Loader from '../../components/loader/Loader';
 
-const Hero = () => {
-  const [hero, setHero] = useState({});
+const Hero = ({ hero, getHeroAction }) => {
   const [fetchingData, setFetchingData] = useState(true);
 
   const { id } = useParams();
@@ -21,12 +25,7 @@ const Hero = () => {
   const location = useLocation();
 
   useEffect(() => {
-    const getData = async () => {
-      const data = await fetchData(`http://localhost:4000/heroes/${id}`);
-      setHero(data);
-    };
-
-    getData();
+    getHeroAction(id);
     setFetchingData(false);
   }, [id]);
 
@@ -44,6 +43,7 @@ const Hero = () => {
 
   return (
     <Loader loading={fetchingData}>
+      {console.log(hero)}
       <Styled.Hero>
         {hero && (
           <>
@@ -80,4 +80,27 @@ const Hero = () => {
   );
 };
 
-export default Hero;
+Hero.propTypes = {
+  hero: PropTypes.shape({
+    id: PropTypes.string,
+    full_name: PropTypes.string,
+    description: PropTypes.string,
+    avatar_url: PropTypes.string,
+    type: PropTypes.shape({
+      id: PropTypes.string,
+      name: PropTypes.string,
+    }),
+  }).isRequired,
+  getHeroAction: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = state => ({
+  hero: reducer.getHero(state),
+});
+
+export default connect(
+  mapStateToProps,
+  {
+    getHeroAction: actions.requestHero,
+  },
+)(Hero);
