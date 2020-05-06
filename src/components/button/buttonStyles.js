@@ -38,6 +38,10 @@ const Button = styled.button`
     color: ${theme.colors.white};
   `};
   
+  ${({ theme, font }) => font === 'green' && `
+    color: ${theme.colors.green};
+  `};
+  
   ${({ theme, font }) => font === 'blue' && `
     color: ${theme.colors.blue};
   `};

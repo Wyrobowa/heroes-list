@@ -4,7 +4,6 @@ import { useParams, useHistory, useLocation } from 'react-router-dom';
 // Components
 import Button from '../../components/button/Button';
 import Icon from '../../components/icon/Icon';
-import LinkButton from '../../components/linkButton/LinkButton';
 
 // Services
 import { fetchData } from '../../services/requestService';
@@ -12,8 +11,6 @@ import { fetchData } from '../../services/requestService';
 // Styles
 import * as Styled from './heroStyles';
 import Loader from '../../components/loader/Loader';
-
-const LinkButtonHoc = LinkButton(Button);
 
 const Hero = () => {
   const [hero, setHero] = useState({});
@@ -54,9 +51,10 @@ const Hero = () => {
             <Styled.Name>{hero.full_name}</Styled.Name>
             <Styled.Cell>{hero.type && hero.type.name}</Styled.Cell>
             <Styled.Cell>{hero.description}</Styled.Cell>
-            <LinkButtonHoc
+            <Styled.EditButton
               type="button"
-              color="green"
+              color="transparent"
+              font="green"
               to={{
                 pathname: `/editHero/${hero.id}`,
                 state: { background: location.state.background },
@@ -65,8 +63,13 @@ const Hero = () => {
             >
               <Icon name="pen" />
               Edit hero
-            </LinkButtonHoc>
-            <Button color="transparent" font="red" onClick={handleDelete} type="button">
+            </Styled.EditButton>
+            <Button
+              type="button"
+              color="transparent"
+              font="red"
+              onClick={handleDelete}
+            >
               <Icon name="trash" />
               Delete hero
             </Button>

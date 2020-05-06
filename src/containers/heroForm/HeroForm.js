@@ -25,7 +25,7 @@ const initState = {
 };
 
 const HeroForm = () => {
-  const [formTitle, setFormTitle] = useState('');
+  const [formType, setFormType] = useState('');
   const [hero, setHero] = useState(initState);
   const [typesList, setTypesList] = useState([]);
   const [buttonDisabled, setButtonDisabled] = useState(true);
@@ -38,11 +38,11 @@ const HeroForm = () => {
     const path = location.pathname;
 
     if (path.includes('edit')) {
-      setFormTitle('Edit');
+      setFormType('Edit');
     }
 
     if (path.includes('add')) {
-      setFormTitle('Add');
+      setFormType('Add');
     }
   }, []);
 
@@ -117,14 +117,15 @@ const HeroForm = () => {
 
     const parsedData = parseData(hero);
 
-    await sendData('http://localhost:4000/heroes', 'POST', parsedData);
+    if (formType === 'Add') await sendData('http://localhost:4000/heroes', 'POST', parsedData);
+    if (formType === 'Edit') await sendData(`http://localhost:4000/heroes/${id}`, 'PUT', parsedData);
 
     history.push('/');
   };
 
   return (
     <Styled.Hero>
-      <Styled.Title>{`${formTitle} hero`}</Styled.Title>
+      <Styled.Title>{`${formType} hero`}</Styled.Title>
       {hero && (
         <>
           <Styled.HeroAvatar src={hero.avatar_url || 'none'} alt={hero.full_name || ''} />

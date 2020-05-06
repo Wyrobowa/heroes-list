@@ -2,6 +2,10 @@ import styled from 'styled-components';
 
 // Components
 import Avatar from '../../components/avatar/Avatar';
+import LinkButton from '../../components/linkButton/LinkButton';
+import Button from '../../components/button/Button';
+
+const LinkButtonHoc = LinkButton(Button);
 
 const Hero = styled.div`
   display: flex;
@@ -23,9 +27,14 @@ const Name = styled(Cell)`
   font-size: 1.2em;
 `;
 
+const EditButton = styled(LinkButtonHoc)`
+  margin-bottom: 1em;
+`;
+
 export {
   Hero,
   HeroAvatar,
   Cell,
   Name,
+  EditButton,
 };
