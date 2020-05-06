@@ -1,19 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useLocation } from 'react-router-dom';
+import { useParams, useLocation, useHistory } from 'react-router-dom';
 
 // Components
 import Button from '../../components/button/Button';
 import SelectField from '../../components/selectField/SelectField';
 import TextField from '../../components/textField/TextField';
 
+// Helpers
+import { parseData } from '../../helpers/helper';
+
 // Services
-import { fetchData } from '../../services/requestService';
+import { fetchData, sendData } from '../../services/requestService';
 
 // Styles
 import * as Styled from './heroFormStyles';
 
 const initState = {
-  id: '',
   full_name: '',
   type: {
     name: '',
@@ -30,6 +32,7 @@ const HeroForm = () => {
 
   const { id } = useParams();
   const location = useLocation();
+  const history = useHistory();
 
   useEffect(() => {
     const path = location.pathname;
@@ -98,20 +101,25 @@ const HeroForm = () => {
     const baseName = splitNames[0];
     const nestedName = splitNames[1];
 
-    const itemId = target.getAttribute('data-id');
+    const itemId = String(target[target.selectedIndex].getAttribute('data-id'));
 
     setHero({
       ...hero,
       [baseName]: {
-        ...hero[baseName],
         id: itemId,
         [nestedName]: value,
       },
     });
   };
 
-  const handleOnClick = ({ target }) => {
-    console.log(target);
+  const handleSubmit = async event => {
+    event.preventDefault();
+
+    const parsedData = parseData(hero);
+
+    await sendData('http://localhost:4000/heroes', 'POST', parsedData);
+
+    history.push('/');
   };
 
   return (
@@ -140,6 +148,7 @@ const HeroForm = () => {
             onChange={handleSelectChange}
             options={typesList}
             selectedValue={hero.type.name}
+            typeId={hero.type.id}
             className="heroForm__field"
           />
           <TextField
@@ -150,7 +159,14 @@ const HeroForm = () => {
             value={hero.description}
             className="heroForm__field"
           />
-          <Button color="green" onClick={handleOnClick} type="submit" disabled={buttonDisabled}>Save</Button>
+          <Button
+            color="green"
+            onClick={handleSubmit}
+            type="submit"
+            disabled={buttonDisabled}
+          >
+            Save
+          </Button>
         </>
       )}
     </Styled.Hero>
