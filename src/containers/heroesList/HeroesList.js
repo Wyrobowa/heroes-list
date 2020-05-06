@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -21,14 +21,11 @@ import * as Styled from './heroesListStyles';
 const LinkButtonHoc = LinkButton(Button);
 
 const HeroesList = ({ heroesList, getHeroesListAction }) => {
-  const [fetchingData, setFetchingData] = useState(true);
-
   const history = useHistory();
   const location = useLocation();
 
   useEffect(() => {
     getHeroesListAction();
-    setFetchingData(false);
   }, []);
 
   const handleOnClick = ({ currentTarget }) => {
@@ -40,7 +37,7 @@ const HeroesList = ({ heroesList, getHeroesListAction }) => {
   };
 
   return (
-    <Loader loading={fetchingData}>
+    <Loader loading={!heroesList.length}>
       <LinkButtonHoc
         type="button"
         color="green"

@@ -31,7 +31,8 @@ const Modal = styled.div`
   
   @media ${({ theme }) => theme.mediaQueries.tablet} {
     width: 50%;
-    min-height: auto;
+    min-width: 320px;
+    min-height: 50%;
     border-radius: 1em;
   }
 `;

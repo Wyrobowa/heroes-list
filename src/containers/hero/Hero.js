@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useParams, useHistory, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -22,15 +22,12 @@ import { requester } from '../../services/requestService';
 import * as Styled from './heroStyles';
 
 const Hero = ({ hero, getHeroAction, deleteHeroAction }) => {
-  const [fetchingData, setFetchingData] = useState(true);
-
   const { id } = useParams();
   const history = useHistory();
   const location = useLocation();
 
   useEffect(() => {
     getHeroAction(id);
-    setFetchingData(false);
   }, [id]);
 
   const handleDelete = async event => {
@@ -44,7 +41,7 @@ const Hero = ({ hero, getHeroAction, deleteHeroAction }) => {
   };
 
   return (
-    <Loader loading={fetchingData}>
+    <Loader loading={!hero.id}>
       <Styled.Hero>
         {hero && (
           <>

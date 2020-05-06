@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { useParams, useLocation, useHistory } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 // Actions
-import PropTypes from 'prop-types';
 import * as actions from '../../actions/heroesListActions';
 
 // Components
 import Button from '../../components/button/Button';
+import Loader from '../../components/loader/Loader';
 import SelectField from '../../components/selectField/SelectField';
 import TextField from '../../components/textField/TextField';
 
@@ -30,46 +31,32 @@ const initState = {
 };
 
 const HeroForm = ({ addHeroAction, editHeroAction }) => {
-  const [formType, setFormType] = useState('');
   const [hero, setHero] = useState(initState);
   const [typesList, setTypesList] = useState([]);
   const [buttonDisabled, setButtonDisabled] = useState(true);
 
   const { id } = useParams();
-  const location = useLocation();
   const history = useHistory();
 
   useEffect(() => {
-    const path = location.pathname;
-
-    if (path.includes('edit')) {
-      setFormType('Edit');
-    }
-
-    if (path.includes('add')) {
-      setFormType('Add');
-    }
-  }, []);
-
-  useEffect(() => {
-    const getData = async () => {
+    const getTypes = async () => {
       const data = await requester('http://localhost:4000/types', 'GET');
       setTypesList(data);
     };
 
-    getData();
+    getTypes();
   }, []);
 
   useEffect(() => {
     setHero(initState);
 
     if (id) {
-      const getData = async () => {
+      const getHero = async () => {
         const data = await requester(`http://localhost:4000/heroes/${id}`, 'GET');
         setHero(data);
       };
 
-      getData();
+      getHero();
     }
   }, []);
 
@@ -122,17 +109,17 @@ const HeroForm = ({ addHeroAction, editHeroAction }) => {
 
     const parsedData = parseData(hero);
     const sendOptions = [
-      formType === 'Add' ? 'http://localhost:4000/heroes' : `http://localhost:4000/heroes/${id}`,
-      formType === 'Add' ? 'POST' : 'PUT',
+      id ? `http://localhost:4000/heroes/${id}` : 'http://localhost:4000/heroes',
+      id ? 'PUT' : 'POST',
       parsedData,
     ];
 
     const newHero = await requester(...sendOptions);
 
-    if (formType === 'Add') {
-      addHeroAction(newHero);
-    } else {
+    if (id) {
       editHeroAction(newHero, id);
+    } else {
+      addHeroAction(newHero);
     }
 
     history.push('/');
@@ -140,51 +127,53 @@ const HeroForm = ({ addHeroAction, editHeroAction }) => {
 
   return (
     <Styled.Hero>
-      <Styled.Title>{`${formType} hero`}</Styled.Title>
-      {hero && (
-        <>
-          <Styled.HeroAvatar src={hero.avatar_url || 'none'} alt={hero.full_name || ''} />
-          <TextField
-            labelText="Avatar URL"
-            onChange={handleInputChange}
-            id="avatar_url"
-            value={hero.avatar_url}
-            className="heroForm__field"
-          />
-          <TextField
-            labelText="Full name"
-            onChange={handleInputChange}
-            id="full_name"
-            value={hero.full_name}
-            className="heroForm__field"
-          />
-          <SelectField
-            id="type.name"
-            labelText="Type"
-            onChange={handleSelectChange}
-            options={typesList}
-            selectedValue={hero.type.name}
-            typeId={hero.type.id}
-            className="heroForm__field"
-          />
-          <TextField
-            fieldType="textarea"
-            labelText="Description"
-            onChange={handleInputChange}
-            id="description"
-            value={hero.description}
-            className="heroForm__field"
-          />
-          <Button
-            color="green"
-            onClick={handleSubmit}
-            type="submit"
-            disabled={buttonDisabled}
-          >
-            Save
-          </Button>
-        </>
-      )}
+      <Styled.Title>{`${id ? 'Edit' : 'Add'} hero`}</Styled.Title>
+      <Loader loading={!hero.id && !!id}>
+        {hero && (
+          <>
+            <Styled.HeroAvatar src={hero.avatar_url || 'none'} alt={hero.full_name || ''} />
+            <TextField
+              labelText="Avatar URL"
+              onChange={handleInputChange}
+              id="avatar_url"
+              value={hero.avatar_url}
+              className="heroForm__field"
+            />
+            <TextField
+              labelText="Full name"
+              onChange={handleInputChange}
+              id="full_name"
+              value={hero.full_name}
+              className="heroForm__field"
+            />
+            <SelectField
+              id="type.name"
+              labelText="Type"
+              onChange={handleSelectChange}
+              options={typesList}
+              selectedValue={hero.type.name}
+              typeId={hero.type.id}
+              className="heroForm__field"
+            />
+            <TextField
+              fieldType="textarea"
+              labelText="Description"
+              onChange={handleInputChange}
+              id="description"
+              value={hero.description}
+              className="heroForm__field"
+            />
+            <Button
+              color="green"
+              onClick={handleSubmit}
+              type="submit"
+              disabled={buttonDisabled}
+            >
+              Save
+            </Button>
+          </>
+        )}
+      </Loader>
     </Styled.Hero>
   );
 };
@@ -197,7 +186,7 @@ HeroForm.propTypes = {
 export default connect(
   null,
   {
-    addHeroAction: actions.addHero(),
-    editHeroAction: actions.editHero(),
+    addHeroAction: actions.addHero,
+    editHeroAction: actions.editHero,
   },
 )(HeroForm);
