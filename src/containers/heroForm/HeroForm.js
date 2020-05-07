@@ -137,14 +137,12 @@ const HeroForm = ({ addHeroAction, editHeroAction }) => {
               onChange={handleInputChange}
               id="avatar_url"
               value={hero.avatar_url}
-              className="heroForm__field"
             />
             <TextField
               labelText="Full name"
               onChange={handleInputChange}
               id="full_name"
               value={hero.full_name}
-              className="heroForm__field"
             />
             <SelectField
               id="type.name"
@@ -153,7 +151,6 @@ const HeroForm = ({ addHeroAction, editHeroAction }) => {
               options={typesList}
               selectedValue={hero.type.name}
               typeId={hero.type.id}
-              className="heroForm__field"
             />
             <TextField
               fieldType="textarea"
@@ -161,7 +158,6 @@ const HeroForm = ({ addHeroAction, editHeroAction }) => {
               onChange={handleInputChange}
               id="description"
               value={hero.description}
-              className="heroForm__field"
             />
             <Button
               color="green"

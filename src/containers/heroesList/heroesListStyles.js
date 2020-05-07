@@ -15,105 +15,77 @@ const Table = styled.div`
 `;
 
 const TableRow = styled.div`
-  display: flex;
-  flex-flow: column;
+  display: grid;
+  grid-template-columns: 50px auto;
+  grid-template-rows: 25px 25px 2em;
+  grid-template-areas: 
+    "avatar name"
+    "avatar type"
+    "description description";
   margin-bottom: .5em;
   
   @media ${({ theme }) => theme.mediaQueries.tablet} {
-    flex-flow: row;
+    grid-template-columns: 50px calc(25% - 50px) 25% auto;
+    grid-template-rows: 3em;
+    grid-template-areas: 
+    "avatar name type description";
   }
 `;
 
 const Header = styled(TableRow)`
   display: none;
-  color: ${({ theme }) => theme.colors.grey60};
   
   @media ${({ theme }) => theme.mediaQueries.tablet} {
-    display: flex;
+    display: grid;
+    grid-template-columns: 25% 25% auto;
+    grid-template-rows: unset;
+    padding: 0 1em;
+    color: ${({ theme }) => theme.colors.grey60};
+    
+    > *:first-child {
+      margin-left: -1em;
+    }
   }
 `;
 
 const Row = styled(TableRow)`
   padding: 1em;
+  background-color: ${({ theme }) => theme.colors.white};
   border: 1px solid ${({ theme }) => theme.colors.white};
   border-radius: .5em;
-  background-color: ${({ theme }) => theme.colors.white};
-  
-  @media ${({ theme }) => theme.mediaQueries.tablet} {
-    align-items: center;
-  }
-`;
-
-const TitleWrapper = styled.div`
-  display: flex;
-  
-  @media ${({ theme }) => theme.mediaQueries.tablet} {
-    width: 50%;
-  }
-`;
-
-const NameAndType = styled.div`
-  display: flex;
-  flex-flow: column;
-  
-  @media ${({ theme }) => theme.mediaQueries.tablet} {
-    flex-flow: row;
-    align-items: center;
-    width: calc(100% - 40px);
-  }
 `;
 
 const HeroAvatar = styled(Avatar)`
-  margin-right: 1em;
-  
-  @media ${({ theme }) => theme.mediaQueries.tablet} {
-    margin-right: 0;
-  }
+  grid-area: avatar;
 `;
 
 const Cell = styled.div`
-  margin-bottom: .25em;
-  
   @media ${({ theme }) => theme.mediaQueries.tablet} {
-    width: 50%;
+    align-self: center;
   }
 `;
 
 const Name = styled(Cell)`
+  grid-area: name;
   font-weight: bold;
   font-size: 1.2em;
-  
-  @media ${({ theme }) => theme.mediaQueries.tablet} {
-    width: calc(50% - 40px);
-  }
+`;
+
+const Type = styled(Cell)`
+  grid-area: type;
 `;
 
 const Description = styled(Cell)`
-`;
-
-const NameColumn = styled.div`
-  width: calc(25% - 40px);
-`;
-
-const TypeColumn = styled.div`
-  width: calc(25% + 40px);
-`;
-
-const DescriptionColumn = styled.div`
-  width: 50%;
+  grid-area: description;
 `;
 
 export {
   Table,
   Header,
   Row,
-  TitleWrapper,
-  NameAndType,
   HeroAvatar,
   Cell,
   Name,
+  Type,
   Description,
-  NameColumn,
-  TypeColumn,
-  DescriptionColumn,
 };

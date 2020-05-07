@@ -52,19 +52,15 @@ const HeroesList = ({ heroesList, getHeroesListAction }) => {
       </LinkButtonHoc>
       <Styled.Table>
         <Styled.Header>
-          <Styled.NameColumn>Heroes</Styled.NameColumn>
-          <Styled.TypeColumn>Type</Styled.TypeColumn>
-          <Styled.DescriptionColumn>Description</Styled.DescriptionColumn>
+          <div>Heroes</div>
+          <div>Type</div>
+          <div>Description</div>
         </Styled.Header>
         {heroesList.length > 0 && heroesList.map(hero => (
           <Styled.Row key={hero.id} onClick={handleOnClick} data-url={`/viewHero/${hero.id}`}>
-            <Styled.TitleWrapper>
-              <Styled.HeroAvatar src={hero.avatar_url} alt={hero.full_name} size="small" />
-              <Styled.NameAndType>
-                <Styled.Name>{hero.full_name}</Styled.Name>
-                <Styled.Cell>{hero.type && hero.type.name}</Styled.Cell>
-              </Styled.NameAndType>
-            </Styled.TitleWrapper>
+            <Styled.HeroAvatar src={hero.avatar_url} alt={hero.full_name} size="small" />
+            <Styled.Name>{hero.full_name}</Styled.Name>
+            <Styled.Type>{hero.type && hero.type.name}</Styled.Type>
             <Styled.Description>{hero.description}</Styled.Description>
           </Styled.Row>
         ))}

@@ -37,6 +37,16 @@ describe('heroesListReducer', () => {
     })).toEqual(changedState);
   });
 
+  it('should handle GET_HEROES_LIST_UNSUCCESSFUL action', () => {
+    const changedState = {
+      ...initialState,
+    };
+
+    expect(reducer(initialState, {
+      type: actions.GET_HEROES_LIST_UNSUCCESSFUL,
+    })).toEqual(changedState);
+  });
+
   it('should handle ADD_HERO action', () => {
     const changedState = {
       ...initialState,
@@ -79,16 +89,6 @@ describe('heroesListReducer', () => {
     expect(reducer(testHeroesList, {
       type: actions.DELETE_HERO,
       id: 'example_id',
-    })).toEqual(changedState);
-  });
-
-  it('should handle GET_HEROES_LIST_UNSUCCESSFUL action', () => {
-    const changedState = {
-      ...initialState,
-    };
-
-    expect(reducer(initialState, {
-      type: actions.GET_HEROES_LIST_UNSUCCESSFUL,
     })).toEqual(changedState);
   });
 });
