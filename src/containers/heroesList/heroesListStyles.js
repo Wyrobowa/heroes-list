@@ -79,6 +79,16 @@ const Description = styled(Cell)`
   grid-area: description;
 `;
 
+const BottomBorder = styled.div`
+  height: 1em;
+`;
+
+const BottomMessage = styled.div`
+  font-size: 1.2em;
+  text-align: center;
+  margin: 1em;
+`;
+
 export {
   Table,
   Header,
@@ -88,4 +98,6 @@ export {
   Name,
   Type,
   Description,
+  BottomBorder,
+  BottomMessage,
 };

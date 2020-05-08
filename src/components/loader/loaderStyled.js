@@ -1,12 +1,21 @@
 import styled from 'styled-components';
 
+const Loader = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: ${({ theme }) => theme.colors.transparentWhite};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
 const LoaderSpinner = styled.div`
-  position: absolute;
-  top: 50%;
-  left: calc(50% - 32px);
   height: 66px;
   width: 64px;
-  margin: auto;
+  position: relative;
 `;
 
 const Spinner = styled.div`
@@ -39,6 +48,7 @@ const Spinner = styled.div`
 `;
 
 export {
+  Loader,
   LoaderSpinner,
   Spinner,
 };

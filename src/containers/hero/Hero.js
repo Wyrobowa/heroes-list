@@ -4,8 +4,8 @@ import { useParams, useHistory, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 // Actions
-import * as heroActions from '../../actions/heroActions';
-import * as heroesListActions from '../../actions/heroesListActions';
+import { requestHero } from '../../actions/heroActions';
+import { deleteHero } from '../../actions/heroesListActions';
 
 // Components
 import Button from '../../components/button/Button';
@@ -13,7 +13,7 @@ import Icon from '../../components/icon/Icon';
 import Loader from '../../components/loader/Loader';
 
 // Reducers
-import * as heroReducer from '../../reducers/heroReducer';
+import { getHero } from '../../reducers/heroReducer';
 
 // Services
 import { requester } from '../../services/requestService';
@@ -94,13 +94,13 @@ Hero.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  hero: heroReducer.getHero(state),
+  hero: getHero(state),
 });
 
 export default connect(
   mapStateToProps,
   {
-    getHeroAction: heroActions.requestHero,
-    deleteHeroAction: heroesListActions.deleteHero,
+    getHeroAction: requestHero,
+    deleteHeroAction: deleteHero,
   },
 )(Hero);

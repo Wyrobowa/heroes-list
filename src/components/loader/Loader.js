@@ -4,23 +4,28 @@ import PropTypes from 'prop-types';
 // Styles
 import * as Styled from './loaderStyled';
 
-const Loader = ({ loading, children }) => (
+const Loader = ({ loading, overlay, children }) => (
   <>
-    {loading
-      ? (
+    {loading && (
+      <Styled.Loader overlay>
         <Styled.LoaderSpinner>
           <Styled.Spinner />
           <Styled.Spinner />
         </Styled.LoaderSpinner>
-      ) : (
-        <>{children}</>
-      )}
+      </Styled.Loader>
+    )}
+    <>{children}</>
   </>
 );
 
 Loader.propTypes = {
   loading: PropTypes.bool.isRequired,
   children: PropTypes.node.isRequired,
+  overlay: PropTypes.bool,
+};
+
+Loader.defaultProps = {
+  overlay: false,
 };
 
 export default Loader;

@@ -4,7 +4,7 @@ import { useParams, useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 // Actions
-import * as actions from '../../actions/heroesListActions';
+import { addHero, editHero } from '../../actions/heroesListActions';
 
 // Components
 import Button from '../../components/button/Button';
@@ -13,7 +13,7 @@ import SelectField from '../../components/selectField/SelectField';
 import TextField from '../../components/textField/TextField';
 
 // Helpers
-import { parseData } from '../../helpers/helper';
+import { parseData } from '../../helpers/helpers';
 
 // Services
 import { requester } from '../../services/requestService';
@@ -34,6 +34,7 @@ const HeroForm = ({ addHeroAction, editHeroAction }) => {
   const [hero, setHero] = useState(initState);
   const [typesList, setTypesList] = useState([]);
   const [buttonDisabled, setButtonDisabled] = useState(true);
+  const [loadingStatus, setLoadingStatus] = useState(false);
 
   const { id } = useParams();
   const history = useHistory();
@@ -106,6 +107,7 @@ const HeroForm = ({ addHeroAction, editHeroAction }) => {
 
   const handleSubmit = async event => {
     event.preventDefault();
+    setLoadingStatus(true);
 
     const parsedData = parseData(hero);
     const sendOptions = [
@@ -128,47 +130,43 @@ const HeroForm = ({ addHeroAction, editHeroAction }) => {
   return (
     <Styled.Hero>
       <Styled.Title>{`${id ? 'Edit' : 'Add'} hero`}</Styled.Title>
-      <Loader loading={!hero.id && !!id}>
-        {hero && (
-          <>
-            <Styled.HeroAvatar src={hero.avatar_url || 'none'} alt={hero.full_name || ''} />
-            <TextField
-              labelText="Avatar URL"
-              onChange={handleInputChange}
-              id="avatar_url"
-              value={hero.avatar_url}
-            />
-            <TextField
-              labelText="Full name"
-              onChange={handleInputChange}
-              id="full_name"
-              value={hero.full_name}
-            />
-            <SelectField
-              id="type.name"
-              labelText="Type"
-              onChange={handleSelectChange}
-              options={typesList}
-              selectedValue={hero.type.name}
-              typeId={hero.type.id}
-            />
-            <TextField
-              fieldType="textarea"
-              labelText="Description"
-              onChange={handleInputChange}
-              id="description"
-              value={hero.description}
-            />
-            <Button
-              color="green"
-              onClick={handleSubmit}
-              type="submit"
-              disabled={buttonDisabled}
-            >
-              Save
-            </Button>
-          </>
-        )}
+      <Loader loading={loadingStatus} overlay>
+        <Styled.HeroAvatar src={hero.avatar_url || 'none'} alt={hero.full_name || ''} />
+        <TextField
+          labelText="Avatar URL"
+          onChange={handleInputChange}
+          id="avatar_url"
+          value={hero.avatar_url}
+        />
+        <TextField
+          labelText="Full name"
+          onChange={handleInputChange}
+          id="full_name"
+          value={hero.full_name}
+        />
+        <SelectField
+          id="type.name"
+          labelText="Type"
+          onChange={handleSelectChange}
+          options={typesList}
+          selectedValue={hero.type.name}
+          typeId={hero.type.id}
+        />
+        <TextField
+          fieldType="textarea"
+          labelText="Description"
+          onChange={handleInputChange}
+          id="description"
+          value={hero.description}
+        />
+        <Button
+          color="green"
+          onClick={handleSubmit}
+          type="submit"
+          disabled={buttonDisabled}
+        >
+          Save
+        </Button>
       </Loader>
     </Styled.Hero>
   );
@@ -182,7 +180,7 @@ HeroForm.propTypes = {
 export default connect(
   null,
   {
-    addHeroAction: actions.addHero,
-    editHeroAction: actions.editHero,
+    addHeroAction: addHero,
+    editHeroAction: editHero,
   },
 )(HeroForm);

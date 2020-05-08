@@ -15,7 +15,8 @@ const variables = {
     greenLight: '#BBE4D2',
     green: '#64CD94',
     red: '#E9394D',
-    transparentGrey: 'rgba(0,0,0,0.5)',
+    transparentGrey: 'rgba(0, 0, 0, 0.5)',
+    transparentWhite: 'rgba(255, 255, 255, 0.7)',
   },
   fonts: {
     size: '14px',
