@@ -7,7 +7,6 @@ import PropTypes from 'prop-types';
 import { addHero, editHero } from '../../actions/heroesListActions';
 
 // Components
-import Button from '../../components/button/Button';
 import Loader from '../../components/loader/Loader';
 import SelectField from '../../components/selectField/SelectField';
 import TextField from '../../components/textField/TextField';
@@ -39,9 +38,8 @@ const ValidationInputHOC = ValidationInput(TextField);
 const HeroForm = ({ addHeroAction, editHeroAction }) => {
   const [hero, setHero] = useState(initState);
   const [typesList, setTypesList] = useState([]);
-  const [buttonDisabled, setButtonDisabled] = useState(true);
   const [loadingStatus, setLoadingStatus] = useState(false);
-  const [fieldsValidation, checkValidation] = useValidation(hero);
+  const [fieldsValidation, checkValidation, isFormValid] = useValidation(hero);
 
   const { id } = useParams();
   const history = useHistory();
@@ -67,23 +65,6 @@ const HeroForm = ({ addHeroAction, editHeroAction }) => {
       getHero();
     }
   }, []);
-
-  const checkIfCanBeSaved = () => {
-    if (
-      hero.avatar_url !== ''
-      && hero.full_name !== ''
-      && hero.description !== ''
-      && hero.type.name !== ''
-    ) {
-      setButtonDisabled(false);
-    } else {
-      setButtonDisabled(true);
-    }
-  };
-
-  useEffect(() => {
-    checkIfCanBeSaved();
-  }, [hero]);
 
   const handleInputChange = ({ target }) => {
     const { name, value } = target;
@@ -116,75 +97,83 @@ const HeroForm = ({ addHeroAction, editHeroAction }) => {
 
   const handleSubmit = async event => {
     event.preventDefault();
-    setLoadingStatus(true);
+    const formValid = checkValidation();
 
-    const parsedData = parseData(hero);
-    const sendOptions = [
-      id ? `http://localhost:4000/heroes/${id}` : 'http://localhost:4000/heroes',
-      id ? 'PUT' : 'POST',
-      parsedData,
-    ];
+    console.log(formValid);
 
-    const newHero = await requester(...sendOptions);
+    if (formValid) {
+      setLoadingStatus(true);
 
-    if (id) {
-      editHeroAction(newHero, id);
-    } else {
-      addHeroAction(newHero);
+      const parsedData = parseData(hero);
+      const sendOptions = [
+        id ? `http://localhost:4000/heroes/${id}` : 'http://localhost:4000/heroes',
+        id ? 'PUT' : 'POST',
+        parsedData,
+      ];
+
+      const newHero = await requester(...sendOptions);
+
+      if (id) {
+        editHeroAction(newHero, id);
+      } else {
+        addHeroAction(newHero);
+      }
+
+      history.push('/');
     }
-
-    history.push('/');
   };
 
   return (
     <Styled.Hero>
       <Styled.Title>{`${id ? 'Edit' : 'Add'} hero`}</Styled.Title>
       <Loader loading={loadingStatus} overlay>
-        <Styled.HeroAvatar src={hero.avatar_url || 'none'} alt={hero.full_name || ''} />
-        <ValidationInputHOC
-          labelText="Avatar URL"
-          onChange={handleInputChange}
-          id="avatar_url"
-          value={hero.avatar_url}
-          onBlur={checkValidation}
-          required
-          isValid={fieldsValidation.avatar_url}
-        />
-        <ValidationInputHOC
-          labelText="Full name"
-          onChange={handleInputChange}
-          id="full_name"
-          value={hero.full_name}
-          onBlur={checkValidation}
-          required
-          isValid={fieldsValidation.full_name}
-        />
-        <SelectField
-          id="type.name"
-          labelText="Type"
-          onChange={handleSelectChange}
-          options={typesList}
-          selectedValue={hero.type.name}
-          typeId={hero.type.id}
-        />
-        <ValidationInputHOC
-          fieldType="textarea"
-          labelText="Description"
-          onChange={handleInputChange}
-          id="description"
-          value={hero.description}
-          onBlur={checkValidation}
-          required
-          isValid={fieldsValidation.description}
-        />
-        <Button
-          color="green"
-          onClick={handleSubmit}
-          type="submit"
-          isDisabled={buttonDisabled}
-        >
-          Save
-        </Button>
+        <form>
+          <Styled.HeroAvatar src={hero.avatar_url || 'none'} alt={hero.full_name || ''} />
+          <ValidationInputHOC
+            labelText="Avatar URL"
+            onChange={handleInputChange}
+            id="avatar_url"
+            value={hero.avatar_url}
+            onBlur={checkValidation}
+            required
+            isValid={fieldsValidation.avatar_url}
+          />
+          <ValidationInputHOC
+            labelText="Full name"
+            onChange={handleInputChange}
+            id="full_name"
+            value={hero.full_name}
+            onBlur={checkValidation}
+            required
+            isValid={fieldsValidation.full_name}
+          />
+          <SelectField
+            id="type.name"
+            labelText="Type"
+            onChange={handleSelectChange}
+            options={typesList}
+            selectedValue={hero.type.name}
+            typeId={hero.type.id}
+          />
+          <ValidationInputHOC
+            fieldType="textarea"
+            labelText="Description"
+            onChange={handleInputChange}
+            id="description"
+            value={hero.description}
+            onBlur={checkValidation}
+            required
+            isValid={fieldsValidation.description}
+          />
+          <Styled.SaveButton
+            color="green"
+            onClick={handleSubmit}
+            type="submit"
+            isDisabled={!isFormValid}
+          >
+            Save
+          </Styled.SaveButton>
+        </form>
       </Loader>
     </Styled.Hero>
   );

@@ -4,7 +4,7 @@ import React from 'react';
 import * as Styled from './validationInputStyles';
 
 const ValidationInput = WrappedComponent => ({
-  value, id, labelText, isValid, onChange, onBlur,
+  value, id, labelText, isValid = true, onChange, onBlur,
 }) => (
   <>
     <WrappedComponent
