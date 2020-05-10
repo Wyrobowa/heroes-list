@@ -10,12 +10,3 @@ export const parseData = data => ({
   avatar_url: data.avatar_url,
   type: data.type.id,
 });
-
-export const debounce = (func, delay) => {
-  let isDebounce;
-
-  return (...args) => {
-    clearTimeout(isDebounce);
-    isDebounce = setTimeout(() => func.apply(this, args), delay);
-  };
-};
