@@ -17,7 +17,7 @@ const Table = styled.div`
 const TableRow = styled.div`
   display: grid;
   grid-template-columns: 50px auto;
-  grid-template-rows: 25px 25px 2em;
+  grid-template-rows: 25px 25px 2.4em;
   grid-template-areas: 
     "avatar name"
     "avatar type"
@@ -78,6 +78,10 @@ const Type = styled(Cell)`
 
 const Description = styled(Cell)`
   grid-area: description;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 `;
 
 const BottomBorder = styled.div`
