@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 // Components
 import Avatar from '../../components/avatar/Avatar';
+import Button from '../../components/button/Button';
 
 const Hero = styled.div`
   display: flex;
@@ -15,11 +16,16 @@ const Title = styled.span`
 `;
 
 const HeroAvatar = styled(Avatar)`
-  margin-bottom: 2em;
+  margin-bottom: 1em;
+`;
+
+const SaveButton = styled(Button)`
+  margin-top: 1em;
 `;
 
 export {
   Hero,
   Title,
   HeroAvatar,
+  SaveButton,
 };

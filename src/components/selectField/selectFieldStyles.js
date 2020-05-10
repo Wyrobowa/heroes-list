@@ -14,19 +14,22 @@ const Label = styled.label`
 
 const Select = styled.select`
   height: 3em;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  box-sizing: border-box;
+  padding: .5em 1em;
+  background-color: ${({ theme }) => theme.colors.white};
   border: 1px solid ${({ theme }) => theme.colors.white};
   border-radius: .5em;
-`;
-
-const ErrorMessage = styled.div`
-  margin-top: .5em;
-  font-size: .75em;
-  color: ${({ theme }) => theme.colors.red};
+  
+   ${({ theme, value }) => value === '' && `
+    color: ${theme.colors.grey60};
+  `}
 `;
 
 export {
   SelectField,
   Label,
   Select,
-  ErrorMessage,
 };
