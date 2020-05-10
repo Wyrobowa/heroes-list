@@ -14,4 +14,11 @@ describe('heroAction', () => {
     };
     expect(actions.getHeroUnsuccessful()).toEqual(expectedAction);
   });
+
+  it('should create an action to cleanHero', () => {
+    const expectedAction = {
+      type: actions.CLEAN_HERO,
+    };
+    expect(actions.cleanHero()).toEqual(expectedAction);
+  });
 });

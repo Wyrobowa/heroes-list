@@ -43,4 +43,12 @@ describe('heroesListActions', () => {
     };
     expect(actions.deleteHero('example_id')).toEqual(expectedAction);
   });
+
+  it('should create an action to setLoadingStatus', () => {
+    const expectedAction = {
+      type: actions.SET_LOADING_STATUS,
+      status: true,
+    };
+    expect(actions.setLoadingStatus(true)).toEqual(expectedAction);
+  });
 });
