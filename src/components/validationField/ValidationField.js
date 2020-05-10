@@ -4,10 +4,11 @@ import React from 'react';
 import * as Styled from './validationFieldStyles';
 
 const ValidationField = WrappedComponent => ({
-  value, id, labelText, isValid = true, onChange, onBlur, options, selectedValue, typeId,
+  value, id, fieldType, labelText, isValid = true, onChange, onBlur, options, selectedValue, typeId,
 }) => (
   <>
     <WrappedComponent
+      fieldType={fieldType}
       labelText={labelText}
       onChange={onChange}
       id={id}

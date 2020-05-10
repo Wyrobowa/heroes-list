@@ -14,26 +14,29 @@ const SelectField = ({
       {labelText && (
         <Styled.Label htmlFor={id}>{labelText}</Styled.Label>
       )}
-      <Styled.Select
-        id={id}
-        name={id}
-        onChange={onChange}
-        value={selectedValue}
-        onBlur={onBlur}
-        className={className}
-        isValid={isValid}
-      >
-        <option value="default">{defaultOptionText}</option>
-        {options && options.map(option => (
-          <option
-            key={option.id}
-            value={option.name}
-            data-id={option.id}
-          >
-            {option.name}
-          </option>
-        ))}
-      </Styled.Select>
+      <Styled.SelectWrapper>
+        <Styled.SelectIcon name="chevron-down" />
+        <Styled.Select
+          id={id}
+          name={id}
+          onChange={onChange}
+          value={selectedValue}
+          onBlur={onBlur}
+          className={className}
+          isValid={isValid}
+        >
+          <option value="default">{defaultOptionText}</option>
+          {options && options.map(option => (
+            <option
+              key={option.id}
+              value={option.name}
+              data-id={option.id}
+            >
+              {option.name}
+            </option>
+          ))}
+        </Styled.Select>
+      </Styled.SelectWrapper>
     </Styled.SelectField>
   );
 };

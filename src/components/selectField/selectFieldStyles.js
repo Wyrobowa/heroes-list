@@ -1,5 +1,8 @@
 import styled from 'styled-components';
 
+// Components
+import Icon from '../icon/Icon';
+
 const SelectField = styled.div`
   display: flex;
   flex-direction: column;
@@ -12,7 +15,19 @@ const Label = styled.label`
   color: ${({ theme }) => theme.colors.grey60};
 `;
 
+const SelectWrapper = styled.div`
+  position: relative;
+`;
+
+const SelectIcon = styled(Icon)`
+  position: absolute;
+  top: calc(50% - 0.5em);
+  right: 1em;
+  color: ${({ theme }) => theme.colors.grey60}
+`;
+
 const Select = styled.select`
+  width: 100%;
   height: 3em;
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -35,5 +50,7 @@ const Select = styled.select`
 export {
   SelectField,
   Label,
+  SelectWrapper,
+  SelectIcon,
   Select,
 };
