@@ -7,7 +7,7 @@ import * as Styled from './loaderStyled';
 const Loader = ({ loading, overlay, children }) => (
   <>
     {loading && (
-      <Styled.Loader overlay>
+      <Styled.Loader overlay={overlay}>
         <Styled.LoaderSpinner>
           <Styled.Spinner />
           <Styled.Spinner />

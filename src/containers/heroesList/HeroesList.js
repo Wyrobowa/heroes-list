@@ -25,7 +25,9 @@ import * as Styled from './heroesListStyles';
 
 const LinkButtonHoc = LinkButton(Button);
 
-const HeroesList = ({ heroesList, loadingStatus, getHeroesListAction, totalCount }) => {
+const HeroesList = ({
+  heroesList, loadingStatus, getHeroesListAction, totalCount,
+}) => {
   const history = useHistory();
   const location = useLocation();
   const [shouldDisplayNoMoreMessage, setShouldDisplayNoMoreMessage] = useState(false);
@@ -103,6 +105,11 @@ HeroesList.propTypes = {
   ])).isRequired,
   getHeroesListAction: PropTypes.func.isRequired,
   loadingStatus: PropTypes.bool.isRequired,
+  totalCount: PropTypes.number,
+};
+
+HeroesList.defaultProps = {
+  totalCount: null,
 };
 
 const mapStateToProps = state => ({

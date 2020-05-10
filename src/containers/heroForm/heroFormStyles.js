@@ -20,6 +20,7 @@ const HeroAvatar = styled(Avatar)`
 `;
 
 const SaveButton = styled(Button)`
+  width: 100%;
   margin-top: 1em;
 `;
 

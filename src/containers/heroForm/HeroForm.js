@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { connect } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -68,9 +68,9 @@ const HeroForm = ({ addHeroAction, editHeroAction }) => {
 
       getHero();
     }
-  }, []);
+  }, [id]);
 
-  const checkIfCanBeSaved = () => {
+  const checkIfCanBeSaved = useCallback(() => {
     if (
       hero.avatar_url !== ''
       && hero.full_name !== ''
@@ -81,11 +81,11 @@ const HeroForm = ({ addHeroAction, editHeroAction }) => {
     } else {
       setButtonDisabled(true);
     }
-  };
+  }, [hero, setButtonDisabled]);
 
   useEffect(() => {
     checkIfCanBeSaved();
-  }, [hero]);
+  }, [hero, checkIfCanBeSaved]);
 
   const handleInputChange = ({ target }) => {
     const { name, value } = target;

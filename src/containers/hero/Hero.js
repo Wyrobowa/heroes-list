@@ -34,7 +34,7 @@ const Hero = ({
     return function cleanup() {
       cleanHeroAction();
     };
-  }, [id]);
+  }, [id, getHeroAction, cleanHeroAction]);
 
   const handleDelete = async event => {
     event.preventDefault();

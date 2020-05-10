@@ -30,8 +30,7 @@ const Modal = styled.div`
   background-color: ${({ theme }) => theme.colors.grey95};
   
   @media ${({ theme }) => theme.mediaQueries.tablet} {
-    width: 50%;
-    min-width: 320px;
+    width: 370px;
     min-height: 50%;
     border-radius: 1em;
   }
