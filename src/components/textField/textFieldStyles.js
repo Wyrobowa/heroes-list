@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 const TextField = styled.div`
-  margin-bottom: 1em;
+  margin-top: 1em;
 `;
 
 const Label = styled.label`
@@ -19,6 +19,10 @@ const Input = styled.input`
   font-size: 1em;
   border: 1px solid ${({ theme }) => theme.colors.white};
   border-radius: .5em;
+  
+  ${({ theme, isValid }) => !isValid && `
+    border-color: ${theme.colors.red};
+  `}
 `;
 
 const TextArea = styled.textarea`
@@ -30,6 +34,10 @@ const TextArea = styled.textarea`
   font-size: 1em;
   border: 1px solid ${({ theme }) => theme.colors.white};
   border-radius: .5rem;
+  
+  ${({ theme, isValid }) => !isValid && `
+    border-color: ${theme.colors.red};
+  `}
 `;
 
 export {

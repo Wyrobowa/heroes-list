@@ -15,6 +15,11 @@ const hero = (state = initialState, action) => {
       return {
         ...state,
       };
+    case actions.CLEAN_HERO:
+      return {
+        ...state,
+        hero: initialState.hero,
+      };
     default:
       return state;
   }

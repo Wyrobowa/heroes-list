@@ -7,7 +7,7 @@ import * as Styled from './selectFieldStyles';
 const SelectField = ({
   id, labelText, selectedValue, options, onChange, className,
 }) => {
-  const defaultOptionText = '--- Choose type ---';
+  const defaultOptionText = 'Select type';
 
   return (
     <Styled.SelectField>

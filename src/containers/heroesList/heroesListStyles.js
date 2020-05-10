@@ -53,6 +53,7 @@ const Row = styled(TableRow)`
   background-color: ${({ theme }) => theme.colors.white};
   border: 1px solid ${({ theme }) => theme.colors.white};
   border-radius: .5em;
+  cursor: pointer;
 `;
 
 const HeroAvatar = styled(Avatar)`

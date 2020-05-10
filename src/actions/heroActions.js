@@ -1,5 +1,6 @@
 export const GET_HERO_SUCCESSFUL = 'GET_HERO_SUCCESSFUL';
 export const GET_HERO_UNSUCCESSFUL = 'GET_HERO_UNSUCCESSFUL';
+export const CLEAN_HERO = 'CLEAN_HERO';
 
 export const getHeroSuccessful = payload => ({
   type: GET_HERO_SUCCESSFUL,
@@ -8,6 +9,10 @@ export const getHeroSuccessful = payload => ({
 
 export const getHeroUnsuccessful = () => ({
   type: GET_HERO_UNSUCCESSFUL,
+});
+
+export const cleanHero = () => ({
+  type: CLEAN_HERO,
 });
 
 export const requestHero = id => dispatch => {

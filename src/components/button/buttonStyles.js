@@ -20,11 +20,6 @@ const Button = styled.button`
   ${({ theme, color }) => color === 'green' && `
     background-color: ${theme.colors.green};
     border-color: ${theme.colors.green};
-    
-    &:disabled {
-      background-color: ${theme.colors.greenLight};
-      border-color: ${theme.colors.greenLight};
-    }
   `};
   
   ${({ color }) => color === 'transparent' && `
@@ -58,6 +53,13 @@ const Button = styled.button`
   
   ${({ theme, border }) => border === 'blue' && `
     border-color: ${theme.colors.blue};
+  `};
+  
+  // Is disabled styles
+  
+  ${({ theme, isDisabled }) => isDisabled && `
+    background-color: ${theme.colors.greenLight};
+    border-color: ${theme.colors.greenLight};
   `};
 `;
 

@@ -15,6 +15,10 @@ import TextField from '../../components/textField/TextField';
 // Helpers
 import { parseData } from '../../helpers/helpers';
 
+// HOC
+import ValidationInput from '../../components/validationInput/ValidationInput';
+import useValidation from '../../hooks/useValidation';
+
 // Services
 import { requester } from '../../services/requestService';
 
@@ -30,11 +34,14 @@ const initState = {
   avatar_url: '',
 };
 
+const ValidationInputHOC = ValidationInput(TextField);
+
 const HeroForm = ({ addHeroAction, editHeroAction }) => {
   const [hero, setHero] = useState(initState);
   const [typesList, setTypesList] = useState([]);
   const [buttonDisabled, setButtonDisabled] = useState(true);
   const [loadingStatus, setLoadingStatus] = useState(false);
+  const [fieldsValidation, checkValidation] = useValidation(hero);
 
   const { id } = useParams();
   const history = useHistory();
@@ -80,6 +87,8 @@ const HeroForm = ({ addHeroAction, editHeroAction }) => {
 
   const handleInputChange = ({ target }) => {
     const { name, value } = target;
+
+    checkValidation({ target });
 
     setHero({
       ...hero,
@@ -132,17 +141,23 @@ const HeroForm = ({ addHeroAction, editHeroAction }) => {
       <Styled.Title>{`${id ? 'Edit' : 'Add'} hero`}</Styled.Title>
       <Loader loading={loadingStatus} overlay>
         <Styled.HeroAvatar src={hero.avatar_url || 'none'} alt={hero.full_name || ''} />
-        <TextField
+        <ValidationInputHOC
           labelText="Avatar URL"
           onChange={handleInputChange}
           id="avatar_url"
           value={hero.avatar_url}
+          onBlur={checkValidation}
+          required
+          isValid={fieldsValidation.avatar_url}
         />
-        <TextField
+        <ValidationInputHOC
           labelText="Full name"
           onChange={handleInputChange}
           id="full_name"
           value={hero.full_name}
+          onBlur={checkValidation}
+          required
+          isValid={fieldsValidation.full_name}
         />
         <SelectField
           id="type.name"
@@ -152,18 +167,21 @@ const HeroForm = ({ addHeroAction, editHeroAction }) => {
           selectedValue={hero.type.name}
           typeId={hero.type.id}
         />
-        <TextField
+        <ValidationInputHOC
           fieldType="textarea"
           labelText="Description"
           onChange={handleInputChange}
           id="description"
           value={hero.description}
+          onBlur={checkValidation}
+          required
+          isValid={fieldsValidation.description}
         />
         <Button
           color="green"
           onClick={handleSubmit}
           type="submit"
-          disabled={buttonDisabled}
+          isDisabled={buttonDisabled}
         >
           Save
         </Button>

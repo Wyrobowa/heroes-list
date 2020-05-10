@@ -4,7 +4,7 @@ import { useParams, useHistory, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 // Actions
-import { requestHero } from '../../actions/heroActions';
+import { requestHero, cleanHero } from '../../actions/heroActions';
 import { deleteHero } from '../../actions/heroesListActions';
 
 // Components
@@ -21,13 +21,19 @@ import { requester } from '../../services/requestService';
 // Styles
 import * as Styled from './heroStyles';
 
-const Hero = ({ hero, getHeroAction, deleteHeroAction }) => {
+const Hero = ({
+  hero, getHeroAction, deleteHeroAction, cleanHeroAction,
+}) => {
   const { id } = useParams();
   const history = useHistory();
   const location = useLocation();
 
   useEffect(() => {
     getHeroAction(id);
+
+    return function cleanup() {
+      cleanHeroAction();
+    };
   }, [id]);
 
   const handleDelete = async event => {
@@ -91,6 +97,7 @@ Hero.propTypes = {
   }).isRequired,
   getHeroAction: PropTypes.func.isRequired,
   deleteHeroAction: PropTypes.func.isRequired,
+  cleanHeroAction: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -102,5 +109,6 @@ export default connect(
   {
     getHeroAction: requestHero,
     deleteHeroAction: deleteHero,
+    cleanHeroAction: cleanHero,
   },
 )(Hero);
