@@ -26,6 +26,10 @@ const Select = styled.select`
    ${({ theme, value }) => value === '' && `
     color: ${theme.colors.grey60};
   `}
+   
+   ${({ theme, isValid }) => !isValid && `
+    border-color: ${theme.colors.red};
+  `}
 `;
 
 export {

@@ -15,7 +15,9 @@ import TextField from '../../components/textField/TextField';
 import { parseData } from '../../helpers/helpers';
 
 // HOC
-import ValidationInput from '../../components/validationInput/ValidationInput';
+import ValidationField from '../../components/validationField/ValidationField';
+
+// Hook
 import useValidation from '../../hooks/useValidation';
 
 // Services
@@ -33,13 +35,15 @@ const initState = {
   avatar_url: '',
 };
 
-const ValidationInputHOC = ValidationInput(TextField);
+const ValidationInputHOC = ValidationField(TextField);
+const ValidationSelectHOC = ValidationField(SelectField);
 
 const HeroForm = ({ addHeroAction, editHeroAction }) => {
   const [hero, setHero] = useState(initState);
   const [typesList, setTypesList] = useState([]);
+  const [buttonDisabled, setButtonDisabled] = useState(true);
   const [loadingStatus, setLoadingStatus] = useState(false);
-  const [fieldsValidation, checkValidation, isFormValid] = useValidation(hero);
+  const [fieldsValidation, checkValidation] = useValidation(hero);
 
   const { id } = useParams();
   const history = useHistory();
@@ -66,6 +70,23 @@ const HeroForm = ({ addHeroAction, editHeroAction }) => {
     }
   }, []);
 
+  const checkIfCanBeSaved = () => {
+    if (
+      hero.avatar_url !== ''
+      && hero.full_name !== ''
+      && hero.description !== ''
+      && hero.type.name !== ''
+    ) {
+      setButtonDisabled(false);
+    } else {
+      setButtonDisabled(true);
+    }
+  };
+
+  useEffect(() => {
+    checkIfCanBeSaved();
+  }, [hero]);
+
   const handleInputChange = ({ target }) => {
     const { name, value } = target;
 
@@ -79,6 +100,8 @@ const HeroForm = ({ addHeroAction, editHeroAction }) => {
 
   const handleSelectChange = ({ target }) => {
     const { name, value } = target;
+
+    checkValidation({ target });
 
     const splitNames = name.split('.');
     const baseName = splitNames[0];
@@ -97,38 +120,33 @@ const HeroForm = ({ addHeroAction, editHeroAction }) => {
 
   const handleSubmit = async event => {
     event.preventDefault();
-    const formValid = checkValidation();
 
-    console.log(formValid);
+    setLoadingStatus(true);
 
-    if (formValid) {
-      setLoadingStatus(true);
+    const parsedData = parseData(hero);
+    const sendOptions = [
+      id ? `http://localhost:4000/heroes/${id}` : 'http://localhost:4000/heroes',
+      id ? 'PUT' : 'POST',
+      parsedData,
+    ];
 
-      const parsedData = parseData(hero);
-      const sendOptions = [
-        id ? `http://localhost:4000/heroes/${id}` : 'http://localhost:4000/heroes',
-        id ? 'PUT' : 'POST',
-        parsedData,
-      ];
+    const newHero = await requester(...sendOptions);
 
-      const newHero = await requester(...sendOptions);
-
-      if (id) {
-        editHeroAction(newHero, id);
-      } else {
-        addHeroAction(newHero);
-      }
-
-      history.push('/');
+    if (id) {
+      editHeroAction(newHero, id);
+    } else {
+      addHeroAction(newHero);
     }
+
+    history.push('/');
   };
 
   return (
     <Styled.Hero>
       <Styled.Title>{`${id ? 'Edit' : 'Add'} hero`}</Styled.Title>
       <Loader loading={loadingStatus} overlay>
+        <Styled.HeroAvatar src={hero.avatar_url || 'none'} alt={hero.full_name || ''} />
         <form>
-          <Styled.HeroAvatar src={hero.avatar_url || 'none'} alt={hero.full_name || ''} />
           <ValidationInputHOC
             labelText="Avatar URL"
             onChange={handleInputChange}
@@ -147,13 +165,15 @@ const HeroForm = ({ addHeroAction, editHeroAction }) => {
             required
             isValid={fieldsValidation.full_name}
           />
-          <SelectField
-            id="type.name"
+          <ValidationSelectHOC
             labelText="Type"
             onChange={handleSelectChange}
+            id="type.name"
             options={typesList}
             selectedValue={hero.type.name}
             typeId={hero.type.id}
+            onBlur={checkValidation}
+            isValid={fieldsValidation.type}
           />
           <ValidationInputHOC
             fieldType="textarea"
@@ -169,7 +189,7 @@ const HeroForm = ({ addHeroAction, editHeroAction }) => {
             color="green"
             onClick={handleSubmit}
             type="submit"
-            isDisabled={!isFormValid}
+            disabled={buttonDisabled}
           >
             Save
           </Styled.SaveButton>

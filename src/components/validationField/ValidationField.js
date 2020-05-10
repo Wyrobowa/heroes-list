@@ -1,10 +1,10 @@
 import React from 'react';
 
 // Styles
-import * as Styled from './validationInputStyles';
+import * as Styled from './validationFieldStyles';
 
-const ValidationInput = WrappedComponent => ({
-  value, id, labelText, isValid = true, onChange, onBlur,
+const ValidationField = WrappedComponent => ({
+  value, id, labelText, isValid = true, onChange, onBlur, options, selectedValue, typeId,
 }) => (
   <>
     <WrappedComponent
@@ -15,6 +15,9 @@ const ValidationInput = WrappedComponent => ({
       required
       onBlur={onBlur}
       isValid={isValid}
+      options={options}
+      selectedValue={selectedValue}
+      typeId={typeId}
     />
     {!isValid && (
       <Styled.ErrorMessage>Field can&apos;t be empty!</Styled.ErrorMessage>
@@ -22,4 +25,4 @@ const ValidationInput = WrappedComponent => ({
   </>
 );
 
-export default ValidationInput;
+export default ValidationField;

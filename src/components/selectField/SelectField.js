@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import * as Styled from './selectFieldStyles';
 
 const SelectField = ({
-  id, labelText, selectedValue, options, onChange, className,
+  id, labelText, selectedValue, options, onChange, onBlur, className, isValid,
 }) => {
   const defaultOptionText = 'Select type';
 
@@ -19,7 +19,9 @@ const SelectField = ({
         name={id}
         onChange={onChange}
         value={selectedValue}
+        onBlur={onBlur}
         className={className}
+        isValid={isValid}
       >
         <option value="default">{defaultOptionText}</option>
         {options && options.map(option => (
@@ -45,6 +47,8 @@ SelectField.propTypes = {
   })).isRequired,
   selectedValue: PropTypes.string,
   onChange: PropTypes.func.isRequired,
+  onBlur: PropTypes.func.isRequired,
+  isValid: PropTypes.bool,
   className: PropTypes.string,
 };
 
@@ -52,6 +56,7 @@ SelectField.defaultProps = {
   labelText: null,
   selectedValue: 'default',
   className: '',
+  isValid: true,
 };
 
 export default SelectField;
